@@ -1,0 +1,1871 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>#КиберПраво | Экосистема Цифровой Защиты 2026</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Poppins:wght@200;300;400;500;600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ==========================================================================
+           1. СИСТЕМНЫЕ НАСТРОЙКИ И ПЕРЕМЕННЫЕ
+           Стиль: Строгий Grayscale, Холодное стекло (Bloom Aesthetic)
+           ========================================================================== */
+        :root {
+            /* Палитра Bloom (Strict Grayscale) */
+            --white-100: hsl(0, 0%, 100%);
+            --white-80: hsla(0, 0%, 100%, 0.8);
+            --white-60: hsla(0, 0%, 100%, 0.6);
+            --white-40: hsla(0, 0%, 100%, 0.4);
+            --white-20: hsla(0, 0%, 100%, 0.2);
+            --white-10: hsla(0, 0%, 100%, 0.1);
+            --white-05: hsla(0, 0%, 100%, 0.05);
+            
+            /* Размеры и радиусы */
+            --radius-main: 1.5rem;
+            --radius-strong: 2.5rem;
+            --radius-pill: 9999px;
+            
+            /* Тайминги анимаций */
+            --anim-fast: 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            --anim-slow: 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Общие сбросы и база */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: #000;
+            color: var(--white-100);
+            font-family: 'Poppins', sans-serif;
+            font-weight: 400;
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Скрытие полосы прокрутки для чистоты дизайна */
+        ::-webkit-scrollbar { width: 0px; background: transparent; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Типографика */
+        .font-cyber { font-family: 'Space Grotesk', sans-serif; }
+        .font-serif-accent { font-family: 'Source Serif 4', serif; }
+        
+        h1, h2, h3, h4 {
+            font-weight: 500;
+            letter-spacing: -0.02em;
+        }
+
+        /* ==========================================================================
+           2. LIQUID GLASS COMPONENTS (Система "Жидкого стекла")
+           Реализация через backdrop-filter, blend-modes и сложные маски границ
+           ========================================================================== */
+        @layer components {
+            
+            /* Тонкое "легкое" стекло (для инпутов, кнопок, карточек) */
+            .liquid-glass {
+                background: rgba(255, 255, 255, 0.01);
+                background-blend-mode: luminosity;
+                backdrop-filter: blur(8px);
+                -webkit-backdrop-filter: blur(8px);
+                border: none;
+                box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+                position: relative; 
+                overflow: hidden;
+                border-radius: var(--radius-main);
+                transition: var(--anim-fast);
+            }
+            
+            /* Градиентная рамка-маска (имитация тонкого края стекла) */
+            .liquid-glass::before {
+                content: ""; 
+                position: absolute; 
+                inset: 0;
+                border-radius: inherit; 
+                padding: 1.2px;
+                background: linear-gradient(180deg, 
+                    rgba(255,255,255,0.45) 0%, 
+                    rgba(255,255,255,0.15) 20%, 
+                    transparent 40%, 
+                    transparent 60%, 
+                    rgba(255,255,255,0.15) 80%, 
+                    rgba(255,255,255,0.45) 100%
+                );
+                -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+                -webkit-mask-composite: xor; 
+                mask-composite: exclude;
+                pointer-events: none;
+            }
+
+            /* Плотное "структурное" стекло (для главных панелей и CTA) */
+            .liquid-glass-strong {
+                background: rgba(255, 255, 255, 0.02);
+                background-blend-mode: overlay;
+                backdrop-filter: blur(50px);
+                -webkit-backdrop-filter: blur(50px);
+                box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.2), 
+                            inset 0 1px 1px rgba(255, 255, 255, 0.15);
+                border: none; 
+                position: relative; 
+                border-radius: var(--radius-strong);
+                overflow: hidden;
+                transition: var(--anim-slow);
+            }
+            
+            .liquid-glass-strong::before {
+                content: ""; 
+                position: absolute; 
+                inset: 0;
+                border-radius: inherit; 
+                padding: 1.5px;
+                background: linear-gradient(180deg, 
+                    rgba(255,255,255,0.5) 0%, 
+                    rgba(255,255,255,0.2) 20%, 
+                    transparent 40%, 
+                    transparent 60%, 
+                    rgba(255,255,255,0.2) 80%, 
+                    rgba(255,255,255,0.5) 100%
+                );
+                -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+                -webkit-mask-composite: xor; 
+                mask-composite: exclude;
+                pointer-events: none;
+            }
+
+            /* Эффекты взаимодействия */
+            .interactive-element:hover {
+                transform: scale(1.03);
+                background: rgba(255, 255, 255, 0.05);
+            }
+            
+            .interactive-element:active {
+                transform: scale(0.97);
+                filter: brightness(0.8);
+            }
+        }
+
+        /* ==========================================================================
+           3. АНИМАЦИИ И ГРАФИЧЕСКИЕ ЭЛЕМЕНТЫ
+           ========================================================================== */
+        
+        /* Плавное появление контента */
+        .reveal { 
+            opacity: 0; 
+            transform: translateY(40px); 
+            transition: opacity var(--anim-slow), transform var(--anim-slow); 
+        }
+        .reveal.active { 
+            opacity: 1; 
+            transform: translateY(0); 
+        }
+
+        /* Карта Беларуси на фоне (Минимализм) */
+        .belarus-map-overlay {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 85vw;
+            height: 85vh;
+            background: url('https://upload.wikimedia.org/wikipedia/commons/e/e4/Belarus_location_map.svg') no-repeat center;
+            background-size: contain;
+            opacity: 0.03;
+            filter: grayscale(100%) invert(1);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Статичные неоновые элементы (по ТЗ: без молний, статичные иконки) */
+        .static-neon-icon {
+            position: absolute;
+            z-index: -1;
+            color: var(--white-10);
+            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.05));
+            pointer-events: none;
+        }
+
+        /* Single Page Application Модули */
+        .spa-module {
+            display: none;
+            animation: moduleEnter 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .spa-module.active {
+            display: block;
+        }
+        @keyframes moduleEnter {
+            from { opacity: 0; filter: blur(20px); transform: scale(0.98); }
+            to { opacity: 1; filter: blur(0); transform: scale(1); }
+        }
+        /* ==========================================================================
+           4. ТОЧЕЧНЫЕ UI-ФИКСЫ
+           Стабильный текст, правое вертикальное меню, адаптивные карточки
+           ========================================================================== */
+        .text-stable,
+        .text-stable * {
+            min-width: 0;
+            overflow-wrap: anywhere;
+            word-break: normal;
+            hyphens: auto;
+        }
+
+        .privacy-card-line {
+            min-width: 72px;
+        }
+
+        #fullMenu {
+            will-change: transform, opacity;
+        }
+
+        #fullMenu > div {
+            align-items: stretch !important;
+        }
+
+        #fullMenu button {
+            width: 100%;
+            flex-direction: row !important;
+            justify-content: flex-start !important;
+            align-items: center !important;
+            text-align: left !important;
+            padding: 0.9rem 1rem !important;
+            border-left: 0 !important;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            border-radius: 1.25rem;
+        }
+
+        #fullMenu button:first-child {
+            border-top: 0 !important;
+        }
+
+        #fullMenu button span {
+            white-space: normal !important;
+            line-height: 1.25;
+        }
+
+        @media (max-width: 768px) {
+            .liquid-glass-strong,
+            .liquid-glass {
+                max-width: 100%;
+            }
+
+            h1, h2, h3 {
+                overflow-wrap: anywhere;
+            }
+
+            .mobile-track-fix {
+                letter-spacing: 0.12em !important;
+            }
+        }
+
+
+        /* Мобильный фикс карточки "Региональный мониторинг" */
+        .monitor-card {
+            overflow: hidden;
+        }
+
+        .monitor-title,
+        .monitor-status,
+        .monitor-metric-label,
+        .monitor-log-row,
+        .monitor-log-status {
+            min-width: 0;
+        }
+
+        .monitor-log-row {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 0.75rem;
+            align-items: start;
+        }
+
+        .monitor-log-status {
+            white-space: nowrap;
+            text-align: right;
+        }
+
+        @media (max-width: 640px) {
+            .monitor-card {
+                padding: 1.25rem !important;
+                border-radius: 2rem !important;
+            }
+
+            .monitor-header {
+                gap: 0.85rem !important;
+                align-items: flex-start !important;
+            }
+
+            .monitor-title {
+                font-size: 0.64rem !important;
+                letter-spacing: 0.14em !important;
+                line-height: 1.45 !important;
+                max-width: 52%;
+            }
+
+            .monitor-status {
+                padding: 0.65rem 0.9rem !important;
+                border-radius: 1.25rem !important;
+                flex-shrink: 0;
+            }
+
+            .monitor-status span {
+                font-size: 0.48rem !important;
+                letter-spacing: 0.14em !important;
+                line-height: 1.25 !important;
+                white-space: nowrap;
+            }
+
+            .monitor-stats-grid {
+                gap: 0.8rem !important;
+                margin-bottom: 1rem !important;
+            }
+
+            .monitor-stat-card {
+                padding: 1.05rem 0.7rem !important;
+                border-radius: 1.55rem !important;
+                min-width: 0;
+            }
+
+            .monitor-stat-value {
+                font-size: clamp(2.35rem, 14vw, 3.4rem) !important;
+                line-height: 0.95 !important;
+                margin-bottom: 0.55rem !important;
+                letter-spacing: -0.06em !important;
+            }
+
+            .monitor-metric-label {
+                font-size: 0.52rem !important;
+                letter-spacing: 0.12em !important;
+                line-height: 1.35 !important;
+                max-width: 7rem;
+                margin-inline: auto;
+            }
+
+            .monitor-log-box {
+                padding: 1rem !important;
+                border-radius: 1.35rem !important;
+                font-size: 0.48rem !important;
+                line-height: 1.55 !important;
+                letter-spacing: 0.02em !important;
+            }
+
+            .monitor-log-row {
+                grid-template-columns: minmax(0, 1fr) max-content;
+                gap: 0.55rem;
+            }
+
+            .monitor-log-row span:first-child {
+                overflow-wrap: normal !important;
+                word-break: normal !important;
+            }
+        }
+    </style>
+</head>
+<body class="relative min-h-screen selection:bg-white/20 selection:text-white">
+
+    <video autoplay loop muted playsinline class="fixed inset-0 w-full h-full object-cover z-[-2] opacity-30 grayscale">
+        <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260315_073750_51473149-4350-4920-ae24-c8214286f323.mp4" type="video/mp4">
+    </video>
+    <div class="fixed inset-0 bg-black/60 z-[-1] pointer-events-none"></div>
+    <div class="belarus-map-overlay"></div>
+
+    <i class="fas fa-shield-halved static-neon-icon text-[20rem]" style="top: 10%; left: -5%;"></i>
+    <i class="fas fa-network-wired static-neon-icon text-[15rem]" style="bottom: 10%; right: -5%;"></i>
+
+    <header class="fixed top-0 left-0 w-full z-[100] p-6 md:p-10 flex justify-between items-center pointer-events-none">
+        
+        <div class="pointer-events-auto">
+            <a href="#" onclick="navigateTo('main-hub')" class="flex items-center gap-4 group">
+                <div class="w-12 h-12 md:w-14 md:h-14 rounded-full liquid-glass flex items-center justify-center border border-white/5 group-hover:bg-white/10 transition-all duration-500">
+                    <i class="fas fa-fingerprint text-xl text-white/80 group-hover:scale-110 transition-transform"></i>
+                </div>
+                <div class="flex flex-col -space-y-1">
+                    <span class="text-xs tracking-[0.4em] uppercase text-white/40 font-bold">Project</span>
+                    <h1 class="text-2xl font-cyber font-bold tracking-tighter uppercase text-white">#Кибер<span class="font-serif-accent italic text-white/50 lowercase">право</span></h1>
+                </div>
+            </a>
+        </div>
+
+        <div class="pointer-events-auto relative">
+            <button id="menuTrigger" class="liquid-glass px-6 py-3 md:py-4 rounded-full flex items-center gap-4 interactive-element border border-white/10">
+                <span class="text-[10px] tracking-[0.3em] uppercase font-bold text-white/80 hidden sm:block">Система</span>
+                <div class="flex flex-col gap-1.5 items-end">
+                    <span class="w-6 h-[1.5px] bg-white/80 rounded-full transition-all duration-300" id="bar1"></span>
+                    <span class="w-4 h-[1.5px] bg-white/50 rounded-full transition-all duration-300" id="bar2"></span>
+                </div>
+            </button>
+
+            <nav id="fullMenu" class="fixed top-24 right-6 w-[33vw] min-w-[230px] max-w-[340px] max-h-[calc(100vh-7rem)] z-[90] liquid-glass-strong bg-black/95 transform translate-x-[120%] opacity-0 transition-all duration-500 flex flex-col justify-start items-stretch pointer-events-auto shadow-2xl p-4 overflow-y-auto">
+                <div class="w-full flex flex-col items-stretch gap-2 py-1">
+                    
+                    <button onclick="navigateTo('main-hub'); toggleMenu();" class="flex flex-col items-center gap-2 group px-6">
+                        <i class="fas fa-th-large text-white/40 group-hover:text-white transition-colors"></i>
+                        <span class="text-[9px] md:text-[10px] uppercase tracking-[0.2em] font-bold text-white/60 group-hover:text-white transition-colors whitespace-nowrap">Главный хаб</span>
+                    </button>
+
+                    <button onclick="navigateTo('email-scanner'); toggleMenu();" class="flex flex-col items-center gap-2 group px-6 border-l border-white/5">
+                        <i class="fas fa-envelope-open-text text-white/40 group-hover:text-white transition-colors"></i>
+                        <span class="text-[9px] md:text-[10px] uppercase tracking-[0.2em] font-bold text-white/60 group-hover:text-white transition-colors whitespace-nowrap">Анализ писем</span>
+                    </button>
+
+                    <button onclick="navigateTo('legal-module'); toggleMenu();" class="flex flex-col items-center gap-2 group px-6 border-l border-white/5">
+                        <i class="fas fa-balance-scale text-white/40 group-hover:text-white transition-colors"></i>
+                        <span class="text-[9px] md:text-[10px] uppercase tracking-[0.2em] font-bold text-white/60 group-hover:text-white transition-colors whitespace-nowrap">Кодекс РБ</span>
+                    </button>
+
+                    <button onclick="navigateTo('password-vault'); toggleMenu();" class="flex flex-col items-center gap-2 group px-6 border-l border-white/5">
+                        <i class="fas fa-key text-white/40 group-hover:text-white transition-colors"></i>
+                        <span class="text-[9px] md:text-[10px] uppercase tracking-[0.2em] font-bold text-white/60 group-hover:text-white transition-colors whitespace-nowrap">Скан паролей</span>
+                    </button>
+
+                    <button onclick="navigateTo('cyber-quiz'); toggleMenu();" class="flex flex-col items-center gap-2 group px-6 border-l border-white/5">
+                        <i class="fas fa-brain text-white/40 group-hover:text-white transition-colors"></i>
+                        <span class="text-[9px] md:text-[10px] uppercase tracking-[0.2em] font-bold text-white/60 group-hover:text-white transition-colors whitespace-nowrap">Киберквиз</span>
+                    </button>
+
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="relative z-10 w-full pt-32 md:pt-48 pb-20">
+        
+        <main id="main-hub" class="spa-module active max-w-[1400px] mx-auto px-6 md:px-12">
+            
+            <section class="flex flex-col xl:flex-row gap-16 items-center xl:items-stretch mb-32 min-h-[60vh]">
+                
+                <div class="w-full xl:w-3/5 flex flex-col justify-center relative">
+                    <div class="liquid-glass-strong absolute inset-0 -z-10 hidden xl:block rounded-[4rem] opacity-40"></div>
+                    
+                    <div class="relative z-10 xl:p-20 text-center xl:text-left reveal active">
+                        <div class="inline-flex items-center gap-4 mb-8 px-6 py-3 rounded-full liquid-glass border border-white/10">
+                            <span class="w-2.5 h-2.5 rounded-full bg-white/60 animate-ping"></span>
+                            <span class="text-[11px] tracking-[0.3em] uppercase text-white/70 font-bold">Cyber Sovereignty Unit 2026</span>
+                        </div>
+                        
+                        <h2 class="text-7xl md:text-8xl lg:text-[7.5rem] xl:text-[9rem] font-cyber font-bold tracking-tighter leading-[0.9] mb-10 text-white drop-shadow-2xl">
+                            #КИБЕР<br/><span class="font-serif-accent italic text-white/60 font-normal">ПРАВО</span>
+                        </h2>
+                        
+                        <p class="text-lg md:text-xl text-white/40 max-w-2xl mx-auto xl:mx-0 leading-relaxed font-light mb-12">
+                            Глобальная аналитическая платформа для формирования юридической грамотности и интеллектуальной защиты личности в условиях агрессивной цифровой среды.
+                        </p>
+                        
+                        <div class="flex flex-wrap justify-center xl:justify-start gap-5">
+                            <button onclick="navigateTo('cyber-quiz')" class="liquid-glass-strong px-10 py-5 rounded-full text-[11px] uppercase tracking-[0.2em] font-bold text-white interactive-element border border-white/20">
+                                <i class="fas fa-bolt mr-3 text-white/60"></i> Пройти аттестацию
+                            </button>
+                            <div class="liquid-glass px-8 py-5 rounded-full flex items-center gap-4 border border-white/5">
+                                <i class="fas fa-shield-halved text-white/30"></i>
+                                <span class="text-[10px] uppercase tracking-widest text-white/50 font-medium">Беларусь // National Shield</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-full xl:w-2/5 flex flex-col gap-8">
+                    
+                    <div class="liquid-glass-strong p-8 md:p-12 rounded-[3.5rem] flex-grow flex flex-col justify-center reveal border border-white/10">
+                        <div class="flex items-center justify-between mb-10 border-b border-white/5 pb-6">
+                            <div class="flex items-center gap-5">
+                                <div class="w-14 h-14 rounded-full liquid-glass flex items-center justify-center border border-white/20">
+                                    <i class="fas fa-link text-xl text-white/80"></i>
+                                </div>
+                                <h3 class="text-2xl font-cyber font-bold uppercase tracking-widest text-white italic">URL <span class="font-serif-accent text-white/40 lowercase">validator</span></h3>
+                            </div>
+                            <i class="fas fa-fingerprint text-white/10 text-3xl"></i>
+                        </div>
+                        
+                        <div class="space-y-6">
+                            <div class="liquid-glass p-6 rounded-[1.5rem] border border-white/5 bg-black/20">
+                                <p class="text-[11px] text-white/40 leading-relaxed font-light">
+                                    <strong class="text-white/80">Процесс анализа:</strong> Автоматическая проверка SSL-сертификата, сверка домена с реестром фишинговых сигнатур и выявление признаков Typosquatting (подмены символов).
+                                </p>
+                            </div>
+                            
+                            <div class="flex flex-col sm:flex-row gap-3 relative z-20">
+                                <input type="text" id="urlInput" placeholder="https://external-link.com/auth..." 
+                                       class="flex-grow liquid-glass bg-transparent px-8 py-5 rounded-full text-sm font-mono text-white placeholder-white/20 outline-none border border-white/10 focus:border-white/40 focus:bg-white/5 transition-all w-full">
+                                
+                                <button onclick="handleUrlScan()" class="liquid-glass-strong px-10 py-5 rounded-full text-xs uppercase tracking-[0.2em] font-bold text-white interactive-element border border-white/20 flex items-center justify-center gap-3 whitespace-nowrap">
+                                    <i class="fas fa-search text-white/50"></i> Скан
+                                </button>
+                            </div>
+
+                            <div id="urlStatusBox" class="hidden mt-6 liquid-glass p-6 rounded-3xl flex items-center gap-6 animate-moduleEnter border border-white/10 shadow-lg">
+                                <div id="urlStatusIcon" class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center flex-shrink-0 border border-white/10">
+                                    <i class="fas fa-circle-notch fa-spin text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 id="urlStatusTitle" class="font-cyber font-bold text-sm uppercase tracking-wider text-white mb-1">Обработка...</h4>
+                                    <p id="urlStatusDesc" class="text-[10px] text-white/50 font-light leading-snug">Сверка с базами данных Интерпола и БелГИЭ.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="liquid-glass rounded-[3.5rem] p-10 reveal border border-white/5 flex flex-col justify-between monitor-card">
+                        <div class="flex justify-between items-center mb-8 border-b border-white/10 pb-6 monitor-header">
+                            <span class="text-xs font-bold tracking-[0.3em] uppercase text-white/30 flex items-center gap-3 monitor-title">
+                                <i class="fas fa-satellite-dish"></i> Региональный мониторинг
+                            </span>
+                            <div class="liquid-glass px-5 py-2 rounded-full border border-green-500/20 bg-green-500/5 monitor-status">
+                                <span class="text-[9px] text-green-400 uppercase font-bold tracking-widest animate-pulse">System Online</span>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-8 mb-8 monitor-stats-grid">
+                            <div class="liquid-glass p-6 rounded-3xl text-center border border-white/5 monitor-stat-card">
+                                <div class="text-5xl font-cyber font-bold text-white mb-2 counter monitor-stat-value" data-target="1420">0</div>
+                                <div class="text-[10px] uppercase tracking-widest text-white/40 font-bold monitor-metric-label">Атак отбито/ч</div>
+                            </div>
+                            <div class="liquid-glass p-6 rounded-3xl text-center border border-white/5 border-l-2 border-l-white/20 monitor-stat-card">
+                                <div class="text-5xl font-cyber font-bold text-white/80 mb-2 counter monitor-stat-value" data-target="99">0</div>
+                                <div class="text-[10px] uppercase tracking-widest text-white/40 font-bold monitor-metric-label">Целостность %</div>
+                            </div>
+                        </div>
+
+                        <div class="liquid-glass p-5 rounded-2xl border border-white/5 bg-black/40 font-mono text-[9px] uppercase tracking-tighter text-white/30 space-y-1.5 text-stable monitor-log-box">
+                            <div class="monitor-log-row"><span>[18:24] Attempt: Minsk-Center</span> <span class="text-white/20 monitor-log-status">Blocked</span></div>
+                            <div class="monitor-log-row"><span>[18:25] Scan: Brest-U3</span> <span class="text-white/20 monitor-log-status">Mitigated</span></div>
+                            <div class="monitor-log-row"><span>[18:27] DDoS: Gomel-Node</span> <span class="text-white/40 font-bold monitor-log-status">Filtering...</span></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="max-w-5xl mx-auto mb-32 reveal" id="privacy-section">
+                <div class="text-center mb-20">
+                    <div class="w-16 h-16 rounded-full liquid-glass flex items-center justify-center mx-auto mb-8 border border-white/10">
+                        <i class="fas fa-fingerprint text-2xl text-white/60"></i>
+                    </div>
+                    <h2 class="text-4xl md:text-5xl font-cyber font-bold uppercase tracking-[0.2em] mb-6 italic">
+                        5 шагов <span class="font-serif-accent italic text-white/50 lowercase font-normal">конфиденциальности</span>
+                    </h2>
+                    <p class="text-white/40 text-base md:text-lg leading-relaxed max-w-3xl mx-auto font-light">
+                        Фундаментальный протокол действий для обеспечения суверенитета вашей личности в цифровом пространстве 2026 года.
+                    </p>
+                </div>
+
+                <div class="flex flex-col gap-6">
+                    
+                    <div onclick="navigateTo('module-anonymity')" class="liquid-glass-strong p-8 md:p-12 rounded-[3rem] border border-white/5 flex flex-col md:flex-row items-start md:items-center gap-10 interactive-element group">
+                        <div class="w-20 h-20 rounded-[2rem] liquid-glass flex items-center justify-center border border-white/10 text-3xl font-cyber font-bold text-white/30 group-hover:text-white transition-all duration-500 flex-shrink-0">
+                            01
+                        </div>
+                        <div class="flex-grow text-stable">
+                            <div class="flex flex-wrap items-center gap-4 mb-4">
+                                <h3 class="text-2xl font-cyber font-bold uppercase tracking-widest text-white italic mobile-track-fix">Анонимность</h3>
+                                <div class="h-[1px] flex-grow bg-white/10 privacy-card-line"></div>
+                            </div>
+                            <p class="text-sm md:text-base text-white/50 font-light leading-relaxed mb-6">
+                                Контроль цифровой идентичности через строгое разделение профессиональных, личных и финансовых профилей. Снижение рисков использования методов социальной инженерии.
+                            </p>
+                            <button class="text-[10px] uppercase tracking-[0.4em] font-bold text-white/40 group-hover:text-white transition-colors">
+                                Изучить протокол <i class="fas fa-arrow-right ml-3"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div onclick="navigateTo('module-footprint')" class="liquid-glass-strong p-8 md:p-12 rounded-[3rem] border border-white/5 flex flex-col md:flex-row items-start md:items-center gap-10 interactive-element group">
+                        <div class="w-20 h-20 rounded-[2rem] liquid-glass flex items-center justify-center border border-white/10 text-3xl font-cyber font-bold text-white/30 group-hover:text-white transition-all duration-500 flex-shrink-0">
+                            02
+                        </div>
+                        <div class="flex-grow text-stable">
+                            <div class="flex flex-wrap items-center gap-4 mb-4">
+                                <h3 class="text-2xl font-cyber font-bold uppercase tracking-widest text-white italic mobile-track-fix">Цифровые следы</h3>
+                                <div class="h-[1px] flex-grow bg-white/10 privacy-card-line"></div>
+                            </div>
+                            <p class="text-sm md:text-base text-white/50 font-light leading-relaxed mb-6">
+                                Очистка метаданных и кешированных файлов. Каждое действие в сети оставляет отпечаток, который может быть использован для агрегации данных третьими лицами.
+                            </p>
+                            <button class="text-[10px] uppercase tracking-[0.4em] font-bold text-white/40 group-hover:text-white transition-colors">
+                                Очистить след <i class="fas fa-arrow-right ml-3"></i>
+                            </button>
+                        </div>
+                    </div>
+
+
+                    <div onclick="navigateTo('module-encryption')" class="liquid-glass-strong p-8 md:p-12 rounded-[3rem] border border-white/5 flex flex-col md:flex-row items-start md:items-center gap-10 interactive-element group">
+                        <div class="w-20 h-20 rounded-[2rem] liquid-glass flex items-center justify-center border border-white/10 text-3xl font-cyber font-bold text-white/30 group-hover:text-white transition-all duration-500 flex-shrink-0">
+                            03
+                        </div>
+                        <div class="flex-grow text-stable">
+                            <div class="flex flex-wrap items-center gap-4 mb-4">
+                                <h3 class="text-2xl font-cyber font-bold uppercase tracking-widest text-white italic mobile-track-fix">Шифрование</h3>
+                                <div class="h-[1px] flex-grow bg-white/10 privacy-card-line"></div>
+                            </div>
+                            <p class="text-sm md:text-base text-white/50 font-light leading-relaxed mb-6">
+                                Защита данных при передаче и хранении: HTTPS, сквозное шифрование в мессенджерах и шифрование дисков на личных устройствах.
+                            </p>
+                            <button class="text-[10px] uppercase tracking-[0.4em] font-bold text-white/40 group-hover:text-white transition-colors mobile-track-fix">
+                                Включить защиту <i class="fas fa-arrow-right ml-3"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div onclick="navigateTo('module-permissions')" class="liquid-glass-strong p-8 md:p-12 rounded-[3rem] border border-white/5 flex flex-col md:flex-row items-start md:items-center gap-10 interactive-element group">
+                        <div class="w-20 h-20 rounded-[2rem] liquid-glass flex items-center justify-center border border-white/10 text-3xl font-cyber font-bold text-white/30 group-hover:text-white transition-all duration-500 flex-shrink-0">
+                            04
+                        </div>
+                        <div class="flex-grow text-stable">
+                            <div class="flex flex-wrap items-center gap-4 mb-4">
+                                <h3 class="text-2xl font-cyber font-bold uppercase tracking-widest text-white italic mobile-track-fix">Аудит доступов</h3>
+                                <div class="h-[1px] flex-grow bg-white/10 privacy-card-line"></div>
+                            </div>
+                            <p class="text-sm md:text-base text-white/50 font-light leading-relaxed mb-6">
+                                Контроль разрешений приложений: камера, микрофон, геолокация и контакты должны быть доступны только при реальной необходимости.
+                            </p>
+                            <button class="text-[10px] uppercase tracking-[0.4em] font-bold text-white/40 group-hover:text-white transition-colors mobile-track-fix">
+                                Проверить доступы <i class="fas fa-arrow-right ml-3"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div onclick="navigateTo('module-backups')" class="liquid-glass-strong p-8 md:p-12 rounded-[3rem] border border-white/5 flex flex-col md:flex-row items-start md:items-center gap-10 interactive-element group">
+                        <div class="w-20 h-20 rounded-[2rem] liquid-glass flex items-center justify-center border border-white/10 text-3xl font-cyber font-bold text-white/30 group-hover:text-white transition-all duration-500 flex-shrink-0">
+                            05
+                        </div>
+                        <div class="flex-grow text-stable">
+                            <div class="flex flex-wrap items-center gap-4 mb-4">
+                                <h3 class="text-2xl font-cyber font-bold uppercase tracking-widest text-white italic mobile-track-fix">Резервные копии</h3>
+                                <div class="h-[1px] flex-grow bg-white/10 privacy-card-line"></div>
+                            </div>
+                            <p class="text-sm md:text-base text-white/50 font-light leading-relaxed mb-6">
+                                Регулярные бэкапы защищают от потери данных, поломки устройства и программ-вымогателей. Важное храните минимум в двух местах.
+                            </p>
+                            <button class="text-[10px] uppercase tracking-[0.4em] font-bold text-white/40 group-hover:text-white transition-colors mobile-track-fix">
+                                Настроить бэкап <i class="fas fa-arrow-right ml-3"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    </div>
+            </section>
+
+            <section class="max-w-6xl mx-auto mb-32 reveal" id="digital-hygiene-section">
+                <div class="text-center mb-16">
+                    <div class="w-16 h-16 rounded-full liquid-glass flex items-center justify-center mx-auto mb-8 border border-white/10">
+                        <i class="fas fa-hand-sparkles text-2xl text-white/60"></i>
+                    </div>
+                    <h2 class="text-4xl md:text-5xl font-cyber font-bold uppercase tracking-[0.2em] mb-6 italic mobile-track-fix">
+                        Цифровая <span class="font-serif-accent italic text-white/50 lowercase font-normal">гигиена</span>
+                    </h2>
+                    <p class="text-white/40 text-base md:text-lg leading-relaxed max-w-3xl mx-auto font-light">
+                        Набор простых привычек, которые снижают риск фишинга, взлома аккаунтов и утечки личных данных.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-5">
+                    <div onclick="navigateTo('guide-passwords')" class="liquid-glass p-6 rounded-[2rem] border border-white/5 interactive-element group text-stable min-h-[230px] flex flex-col">
+                        <div class="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center border border-white/10 mb-6"><i class="fas fa-key text-white/60"></i></div>
+                        <h3 class="text-sm font-cyber font-bold uppercase tracking-[0.2em] text-white mb-4 mobile-track-fix">Пароли</h3>
+                        <p class="text-xs text-white/50 font-light leading-relaxed flex-grow">Используйте уникальные пароли от 16 символов и храните их в менеджере паролей.</p>
+                    </div>
+
+                    <div onclick="navigateTo('guide-2fa')" class="liquid-glass p-6 rounded-[2rem] border border-white/5 interactive-element group text-stable min-h-[230px] flex flex-col">
+                        <div class="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center border border-white/10 mb-6"><i class="fas fa-mobile-screen-button text-white/60"></i></div>
+                        <h3 class="text-sm font-cyber font-bold uppercase tracking-[0.2em] text-white mb-4 mobile-track-fix">2FA</h3>
+                        <p class="text-xs text-white/50 font-light leading-relaxed flex-grow">Включайте двухфакторную защиту для почты, банков, соцсетей и рабочих сервисов.</p>
+                    </div>
+
+                    <div onclick="navigateTo('guide-updates')" class="liquid-glass p-6 rounded-[2rem] border border-white/5 interactive-element group text-stable min-h-[230px] flex flex-col">
+                        <div class="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center border border-white/10 mb-6"><i class="fas fa-download text-white/60"></i></div>
+                        <h3 class="text-sm font-cyber font-bold uppercase tracking-[0.2em] text-white mb-4 mobile-track-fix">Обновления</h3>
+                        <p class="text-xs text-white/50 font-light leading-relaxed flex-grow">Не откладывайте патчи системы, браузера и приложений: они закрывают реальные уязвимости.</p>
+                    </div>
+
+                    <div onclick="navigateTo('module-permissions')" class="liquid-glass p-6 rounded-[2rem] border border-white/5 interactive-element group text-stable min-h-[230px] flex flex-col">
+                        <div class="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center border border-white/10 mb-6"><i class="fas fa-user-check text-white/60"></i></div>
+                        <h3 class="text-sm font-cyber font-bold uppercase tracking-[0.2em] text-white mb-4 mobile-track-fix">Доступы</h3>
+                        <p class="text-xs text-white/50 font-light leading-relaxed flex-grow">Раз в месяц проверяйте, какие приложения имеют доступ к камере, микрофону и геолокации.</p>
+                    </div>
+
+                    <div onclick="navigateTo('module-backups')" class="liquid-glass p-6 rounded-[2rem] border border-white/5 interactive-element group text-stable min-h-[230px] flex flex-col">
+                        <div class="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center border border-white/10 mb-6"><i class="fas fa-database text-white/60"></i></div>
+                        <h3 class="text-sm font-cyber font-bold uppercase tracking-[0.2em] text-white mb-4 mobile-track-fix">Бэкапы</h3>
+                        <p class="text-xs text-white/50 font-light leading-relaxed flex-grow">Храните важные файлы минимум в двух местах и регулярно проверяйте, что копии открываются.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="max-w-6xl mx-auto mb-32 reveal" id="interesting-facts-section">
+                <div class="liquid-glass-strong p-8 md:p-12 rounded-[3.5rem] border border-white/5 relative overflow-hidden">
+                    <div class="absolute -right-16 -top-16 opacity-5 pointer-events-none">
+                        <i class="fas fa-truck-fast text-[18rem]"></i>
+                    </div>
+                    <div class="relative z-10 text-center mb-12">
+                        <h2 class="text-3xl md:text-4xl font-cyber font-bold uppercase tracking-widest mb-5 mobile-track-fix">
+                            Интересные <span class="font-serif-accent italic text-white/50 lowercase font-normal">факты</span>
+                        </h2>
+                        <p class="text-white/40 text-sm md:text-base max-w-2xl mx-auto leading-relaxed font-light">
+                            Небольшой блок про курьерскую безопасность и защиту данных при доставке.
+                        </p>
+                    </div>
+
+                    <div class="relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                        <div class="liquid-glass p-6 rounded-[2rem] border border-white/5 text-stable">
+                            <h3 class="text-sm font-cyber font-bold uppercase tracking-[0.2em] text-white/90 mb-3 mobile-track-fix">Код важнее слов</h3>
+                            <p class="text-xs text-white/50 leading-relaxed font-light">Если курьер просит код подтверждения до передачи заказа — лучше сначала проверить номер заказа и приложение доставки.</p>
+                        </div>
+                        <div class="liquid-glass p-6 rounded-[2rem] border border-white/5 text-stable">
+                            <h3 class="text-sm font-cyber font-bold uppercase tracking-[0.2em] text-white/90 mb-3 mobile-track-fix">Фото может выдать адрес</h3>
+                            <p class="text-xs text-white/50 leading-relaxed font-light">На фото посылки часто видны штрихкод, номер телефона или подъезд. Перед публикацией такие данные нужно закрывать.</p>
+                        </div>
+                        <div class="liquid-glass p-6 rounded-[2rem] border border-white/5 text-stable">
+                            <h3 class="text-sm font-cyber font-bold uppercase tracking-[0.2em] text-white/90 mb-3 mobile-track-fix">Фишинг под доставку</h3>
+                            <p class="text-xs text-white/50 leading-relaxed font-light">Сообщения “ваша посылка задержана, оплатите сбор” — частый сценарий мошенников. Домен сайта нужно проверять вручную.</p>
+                        </div>
+                        <div class="liquid-glass p-6 rounded-[2rem] border border-white/5 text-stable">
+                            <h3 class="text-sm font-cyber font-bold uppercase tracking-[0.2em] text-white/90 mb-3 mobile-track-fix">Геолокация временная</h3>
+                            <p class="text-xs text-white/50 leading-relaxed font-light">Доступ к маршруту курьера должен быть ограничен по времени, чтобы после доставки нельзя было отслеживать перемещения.</p>
+                        </div>
+                        <div class="liquid-glass p-6 rounded-[2rem] border border-white/5 text-stable md:col-span-2 lg:col-span-2">
+                            <h3 class="text-sm font-cyber font-bold uppercase tracking-[0.2em] text-white/90 mb-3 mobile-track-fix">Меньше данных — меньше риска</h3>
+                            <p class="text-xs text-white/50 leading-relaxed font-light">Курьеру обычно достаточно имени, адреса и номера заказа. Паспортные данные, PIN-коды, банковские коды и пароли сообщать нельзя.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="max-w-4xl mx-auto mb-32 reveal">
+                <div class="liquid-glass-strong p-10 md:p-16 rounded-[4rem] border border-white/10 text-center relative overflow-hidden">
+                    <div class="absolute -right-20 -top-20 opacity-5">
+                        <i class="fas fa-comment-dots text-[20rem]"></i>
+                    </div>
+                    
+                    <h2 class="text-3xl md:text-4xl font-cyber font-bold uppercase tracking-widest mb-6">
+                        Голос <span class="font-serif-accent italic text-white/50 lowercase font-normal">сообщества</span>
+                    </h2>
+                    <p class="text-white/40 text-sm md:text-base mb-12 max-w-2xl mx-auto leading-relaxed font-light">
+                        Стали свидетелем новой схемы мошенничества или хотите предложить идею по улучшению проекта? Поделитесь опытом анонимно.
+                    </p>
+                    
+                    <div class="flex flex-col gap-5 text-left relative z-10">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <input type="text" placeholder="Имя / Код" class="liquid-glass bg-white/5 px-8 py-5 rounded-2xl text-sm border border-white/5 outline-none focus:border-white/20 transition-all text-white placeholder-white/20">
+                            <select class="liquid-glass bg-[#0a0a0a] px-8 py-5 rounded-2xl text-sm border border-white/5 outline-none focus:border-white/20 transition-all text-white/60 cursor-pointer">
+                                <option value="feedback">Отзыв о сайте</option>
+                                <option value="story">Случай из практики</option>
+                                <option value="idea">Предложить идею</option>
+                            </select>
+                        </div>
+                        <textarea placeholder="Опишите ваши мысли..." rows="5" class="liquid-glass bg-white/5 px-8 py-6 rounded-3xl text-sm border border-white/5 outline-none focus:border-white/20 transition-all text-white placeholder-white/20 resize-none"></textarea>
+                        
+                        <div class="flex items-center justify-between mt-4">
+                            <p class="text-[9px] uppercase tracking-widest text-white/20 font-bold flex items-center gap-3">
+                                <i class="fas fa-lock"></i> E2EE Encryption Active
+                            </p>
+                            <button onclick="handleFeedbackSend()" class="liquid-glass-strong px-12 py-5 rounded-full text-[11px] uppercase tracking-[0.3em] font-bold text-white interactive-element border border-white/20">
+                                Отправить в базу
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+                <main id="email-scanner" class="spa-module max-w-[1400px] mx-auto px-6 md:px-12">
+            <section class="liquid-glass-strong p-10 md:p-16 rounded-[3.5rem] border border-white/5 mb-24 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-full h-full bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-white/5 via-transparent to-transparent opacity-50 pointer-events-none"></div>
+                
+                <button onclick="navigateTo('main-hub')" class="relative z-10 mb-12 text-white/40 hover:text-white/90 transition-colors flex items-center gap-3 text-[10px] uppercase tracking-[0.2em] font-bold">
+                    <i class="fas fa-arrow-left"></i> В главный хаб
+                </button>
+                
+                <div class="text-center mb-16 relative z-10">
+                    <div class="w-20 h-20 rounded-full liquid-glass flex items-center justify-center mx-auto mb-8 border border-white/10">
+                        <i class="fas fa-envelope-open-text text-3xl text-white/80"></i>
+                    </div>
+                    <h2 class="text-4xl md:text-5xl lg:text-6xl font-cyber font-bold uppercase tracking-widest mb-6 drop-shadow-lg">
+                        Сканер <span class="font-serif-accent italic text-white/50 lowercase font-normal">писем</span>
+                    </h2>
+                    <p class="text-white/50 text-base max-w-2xl mx-auto leading-relaxed font-light">
+                        Идентификация фишинга и манипуляций. Изучите паттерны социальной инженерии, чтобы защитить свои данные от перехвата.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 relative z-10">
+                    <div class="liquid-glass p-8 md:p-12 rounded-[2.5rem] border border-white/5 hover:bg-white/5 transition-all duration-500">
+                        <h3 class="text-xl font-cyber font-bold uppercase tracking-widest text-white mb-8 flex items-center gap-4">
+                            <i class="fas fa-crosshairs text-white/30"></i> Векторы атаки
+                        </h3>
+                        <div class="space-y-6 text-sm font-light text-white/60">
+                            <div class="flex items-start gap-5">
+                                <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center flex-shrink-0 mt-1 border border-white/10">
+                                    <i class="fas fa-exclamation text-white/50 text-xs"></i>
+                                </div>
+                                <div>
+                                    <strong class="text-white/90 block mb-1 uppercase tracking-wider text-[11px]">Срочность и Паника</strong> 
+                                    Требования немедленно обновить пароль, оплатить штраф или подтвердить перевод, иначе "аккаунт будет безвозвратно удален".
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-5">
+                                <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center flex-shrink-0 mt-1 border border-white/10">
+                                    <i class="fas fa-at text-white/50 text-xs"></i>
+                                </div>
+                                <div>
+                                    <strong class="text-white/90 block mb-1 uppercase tracking-wider text-[11px]">Подмена домена (Typosquatting)</strong> 
+                                    Адрес отправителя визуально похож на настоящий, но содержит опечатку или другой домен (например, support@g00gle.com вместо google.com).
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-5">
+                                <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center flex-shrink-0 mt-1 border border-white/10">
+                                    <i class="fas fa-user-secret text-white/50 text-xs"></i>
+                                </div>
+                                <div>
+                                    <strong class="text-white/90 block mb-1 uppercase tracking-wider text-[11px]">Запрос личных данных</strong> 
+                                    Легитимные банки и сервисы никогда не просят прислать пароль, PIN-код или код из SMS в ответном письме.
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-5">
+                                <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center flex-shrink-0 mt-1 border border-white/10">
+                                    <i class="fas fa-link text-white/50 text-xs"></i>
+                                </div>
+                                <div>
+                                    <strong class="text-white/90 block mb-1 uppercase tracking-wider text-[11px]">Скрытые редиректы</strong> 
+                                    Кнопка "Войти" или ссылка ведут на сторонний, неофициальный адрес (всегда проверяйте ссылку наведением курсора перед кликом).
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="liquid-glass p-8 md:p-12 rounded-[2.5rem] border border-white/5 hover:bg-white/5 transition-all duration-500 flex flex-col">
+                        <h3 class="text-xl font-cyber font-bold uppercase tracking-widest text-white mb-8 flex items-center gap-4">
+                            <i class="fas fa-shield-halved text-white/30"></i> Протокол защиты
+                        </h3>
+                        <div class="space-y-6 text-sm font-light text-white/60 leading-relaxed flex-grow">
+                            <p>
+                                Никогда не доверяйте исключительно полю "Имя отправителя". Злоумышленник может назваться "Служба безопасности", но реальный email адрес (который можно увидеть при детальном просмотре) выдаст обман.
+                            </p>
+                            <p>
+                                Фишинговые письма часто содержат вредоносные вложения. Не открывайте неожиданные PDF, DOCX или ZIP архивы, даже если они якобы от "налоговой" или "суда".
+                            </p>
+                        </div>
+                        
+                        <div class="liquid-glass p-6 md:p-8 rounded-[2rem] bg-black/40 border border-white/10 mt-8 relative overflow-hidden">
+                            <div class="absolute top-0 left-0 w-1 h-full bg-white/30"></div>
+                            <span class="text-[10px] uppercase tracking-[0.2em] text-white/50 font-bold block mb-3 flex items-center gap-2">
+                                <i class="fas fa-star text-white/30"></i> Золотое правило
+                            </span>
+                            <p class="text-white/80 italic font-serif-accent text-base leading-relaxed">
+                                "Если вы получили письмо от сервиса с просьбой войти в аккаунт, никогда не кликайте по ссылке в письме. Откройте браузер, введите адрес сайта вручную и авторизуйтесь там. Если проблема реальна, уведомление будет ждать вас в личном кабинете."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+
+        <main id="legal-module" class="spa-module max-w-[1400px] mx-auto px-6 md:px-12">
+            <section class="liquid-glass-strong p-10 md:p-16 rounded-[3.5rem] border border-white/5 mb-24 relative overflow-hidden">
+                <div class="absolute -right-32 -bottom-32 opacity-5 pointer-events-none">
+                    <i class="fas fa-balance-scale text-[40rem]"></i>
+                </div>
+                
+                <button onclick="navigateTo('main-hub')" class="relative z-10 mb-12 text-white/40 hover:text-white/90 transition-colors flex items-center gap-3 text-[10px] uppercase tracking-[0.2em] font-bold">
+                    <i class="fas fa-arrow-left"></i> В главный хаб
+                </button>
+                
+                <div class="text-center mb-16 relative z-10">
+                    <div class="w-20 h-20 rounded-full liquid-glass flex items-center justify-center mx-auto mb-8 border border-white/10">
+                        <i class="fas fa-gavel text-3xl text-white/80"></i>
+                    </div>
+                    <h2 class="text-4xl md:text-5xl lg:text-6xl font-cyber font-bold uppercase tracking-widest mb-6 drop-shadow-lg">
+                        Кодекс <span class="font-serif-accent italic text-white/50 lowercase font-normal">РБ</span>
+                    </h2>
+                    <p class="text-white/50 text-sm max-w-2xl mx-auto leading-relaxed font-light uppercase tracking-[0.1em]">
+                        Уголовная ответственность за киберпреступления
+                    </p>
+                </div>
+
+                <div class="flex flex-col gap-8 relative z-10 max-w-5xl mx-auto">
+                    
+                    <div class="liquid-glass p-8 md:p-12 rounded-[2.5rem] border border-white/5 hover:bg-white/5 transition-all duration-500 group">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-8">
+                            <div class="flex-grow">
+                                <div class="flex items-center gap-4 mb-4">
+                                    <span class="px-3 py-1 rounded-lg bg-white/10 text-white/80 font-cyber font-bold text-sm tracking-widest border border-white/10">СТ. 212</span>
+                                    <h3 class="text-xl md:text-2xl font-cyber font-bold uppercase tracking-widest text-white">
+                                        Хищение информации
+                                    </h3>
+                                </div>
+                                <p class="text-base text-white/50 font-light leading-relaxed max-w-3xl">
+                                    Хищение имущества путем изменения информации, обрабатываемой в компьютерной системе, хранящейся на машинных носителях или передаваемой по сетям передачи данных, либо путем введения в систему ложной информации.
+                                </p>
+                            </div>
+                            <div class="liquid-glass px-8 py-6 rounded-[2rem] flex-shrink-0 text-center border border-white/10 bg-black/40 min-w-[200px]">
+                                <span class="text-[10px] uppercase tracking-[0.2em] text-white/40 block mb-2 font-bold">Наказание</span>
+                                <span class="text-sm font-bold text-white/90 block">Штраф / Арест</span>
+                                <span class="text-xs text-white/60 block mt-1">До 10 лет лишения</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="liquid-glass p-8 md:p-12 rounded-[2.5rem] border border-white/5 hover:bg-white/5 transition-all duration-500 group">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-8">
+                            <div class="flex-grow">
+                                <div class="flex items-center gap-4 mb-4">
+                                    <span class="px-3 py-1 rounded-lg bg-white/10 text-white/80 font-cyber font-bold text-sm tracking-widest border border-white/10">СТ. 349</span>
+                                    <h3 class="text-xl md:text-2xl font-cyber font-bold uppercase tracking-widest text-white">
+                                        Несанкционированный доступ
+                                    </h3>
+                                </div>
+                                <p class="text-base text-white/50 font-light leading-relaxed max-w-3xl">
+                                    Несанкционированный доступ к информации, хранящейся в компьютерной системе, сети или на машинных носителях, сопровождающийся нарушением системы защиты.
+                                </p>
+                            </div>
+                            <div class="liquid-glass px-8 py-6 rounded-[2rem] flex-shrink-0 text-center border border-white/10 bg-black/40 min-w-[200px]">
+                                <span class="text-[10px] uppercase tracking-[0.2em] text-white/40 block mb-2 font-bold">Наказание</span>
+                                <span class="text-sm font-bold text-white/90 block">Штраф / Арест</span>
+                                <span class="text-xs text-white/60 block mt-1">До 6 месяцев</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="liquid-glass p-8 md:p-12 rounded-[2.5rem] border border-white/5 hover:bg-white/5 transition-all duration-500 group">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-8">
+                            <div class="flex-grow">
+                                <div class="flex items-center gap-4 mb-4">
+                                    <span class="px-3 py-1 rounded-lg bg-white/10 text-white/80 font-cyber font-bold text-sm tracking-widest border border-white/10">СТ. 354</span>
+                                    <h3 class="text-xl md:text-2xl font-cyber font-bold uppercase tracking-widest text-white">
+                                        Вредоносное ПО
+                                    </h3>
+                                </div>
+                                <p class="text-base text-white/50 font-light leading-relaxed max-w-3xl">
+                                    Разработка компьютерных программ или внесение изменений в существующие программы с целью несанкционированного уничтожения, блокирования, модификации либо копирования информации, а равно распространение таких программ.
+                                </p>
+                            </div>
+                            <div class="liquid-glass px-8 py-6 rounded-[2rem] flex-shrink-0 text-center border border-white/10 bg-black/40 min-w-[200px]">
+                                <span class="text-[10px] uppercase tracking-[0.2em] text-white/40 block mb-2 font-bold">Наказание</span>
+                                <span class="text-sm font-bold text-white/90 block">Лишение свободы</span>
+                                <span class="text-xs text-white/60 block mt-1">До 3 лет</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="mt-12 liquid-glass p-8 rounded-[2rem] border border-white/10 bg-white/5 text-center max-w-4xl mx-auto relative z-10">
+                    <p class="text-base text-white/80 font-light italic leading-relaxed">
+                        <i class="fas fa-info-circle mr-3 text-white/50"></i> 
+                        Незнание закона не освобождает от ответственности. Любые действия, направленные на несанкционированный доступ, распространение вирусов или кибермошенничество, преследуются по закону и ведут к реальным срокам.
+                    </p>
+                </div>
+            </section>
+        </main>
+
+
+        <main id="password-vault" class="spa-module max-w-[1400px] mx-auto px-6 md:px-12">
+            <section class="liquid-glass-strong p-10 md:p-16 rounded-[3.5rem] border border-white/5 mb-24">
+                
+                <button onclick="navigateTo('main-hub')" class="mb-12 text-white/40 hover:text-white/90 transition-colors flex items-center gap-3 text-[10px] uppercase tracking-[0.2em] font-bold">
+                    <i class="fas fa-arrow-left"></i> В главный хаб
+                </button>
+
+                <div class="text-center mb-16">
+                    <div class="w-20 h-20 rounded-full liquid-glass flex items-center justify-center mx-auto mb-8 border border-white/10">
+                        <i class="fas fa-key text-3xl text-white/80"></i>
+                    </div>
+                    <h2 class="text-4xl md:text-5xl lg:text-6xl font-cyber font-bold uppercase tracking-widest mb-6 drop-shadow-lg">
+                        Сканер <span class="font-serif-accent italic text-white/50 lowercase font-normal">паролей</span>
+                    </h2>
+                    <p class="text-white/50 text-base max-w-2xl mx-auto leading-relaxed font-light">
+                        Оценка криптографической стойкости ключа доступа к атакам полного перебора (Brute-force) на базе вычисления энтропии.
+                    </p>
+                </div>
+
+                <div class="max-w-3xl mx-auto mb-16">
+                    <div class="relative mb-12">
+                        <input type="password" id="passwordInput" placeholder="Введите ключ для анализа..." oninput="window.analyzePassword()"
+                               class="w-full liquid-glass bg-black/50 px-10 py-6 rounded-full text-xl font-mono text-white placeholder-white/20 outline-none border border-white/10 focus:border-white/40 text-center transition-all shadow-inner">
+                        <button onclick="window.togglePassword()" class="absolute right-8 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center text-white/30 hover:text-white transition-colors rounded-full hover:bg-white/5">
+                            <i id="eyeIcon" class="fas fa-eye text-lg"></i>
+                        </button>
+                    </div>
+
+                    <div id="passwordResult" class="hidden space-y-10 animate-moduleEnter">
+                        
+                        <div class="liquid-glass p-8 rounded-[2rem] border border-white/5 bg-black/30">
+                            <div class="flex justify-between items-end mb-4">
+                                <span class="text-[10px] uppercase tracking-[0.3em] text-white/40 font-bold">Индекс криптостойкости</span>
+                                <span id="strengthLabel" class="text-sm font-cyber font-bold uppercase tracking-widest text-white/90"></span>
+                            </div>
+                            <div class="strength-bar-container h-2 rounded-full overflow-hidden bg-white/10 shadow-inner">
+                                <div id="strengthBar" class="strength-bar h-full w-0 transition-all duration-700 ease-out"></div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+                            <div id="lenCheck" class="liquid-glass p-5 rounded-2xl text-center text-[10px] uppercase tracking-widest border border-white/5 flex flex-col items-center justify-center gap-2 transition-all duration-300">
+                                <i class="fas fa-ruler text-xl mb-1 opacity-40"></i> Длина 16+
+                            </div>
+                            <div id="upCheck" class="liquid-glass p-5 rounded-2xl text-center text-[10px] uppercase tracking-widest border border-white/5 flex flex-col items-center justify-center gap-2 transition-all duration-300">
+                                <i class="fas fa-font text-xl mb-1 opacity-40"></i> A-Z
+                            </div>
+                            <div id="lowCheck" class="liquid-glass p-5 rounded-2xl text-center text-[10px] uppercase tracking-widest border border-white/5 flex flex-col items-center justify-center gap-2 transition-all duration-300">
+                                <i class="fas fa-italic text-xl mb-1 opacity-40"></i> a-z
+                            </div>
+                            <div id="numCheck" class="liquid-glass p-5 rounded-2xl text-center text-[10px] uppercase tracking-widest border border-white/5 flex flex-col items-center justify-center gap-2 transition-all duration-300">
+                                <i class="fas fa-hashtag text-xl mb-1 opacity-40"></i> 0-9
+                            </div>
+                            <div id="specCheck" class="liquid-glass p-5 rounded-2xl text-center text-[10px] uppercase tracking-widest border border-white/5 flex flex-col items-center justify-center gap-2 transition-all duration-300 col-span-2 md:col-span-1">
+                                <i class="fas fa-asterisk text-xl mb-1 opacity-40"></i> Символы
+                            </div>
+                        </div>
+
+                        <div class="text-center mt-12 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white/5 via-transparent to-transparent py-8 rounded-[3rem]">
+                            <p class="text-[10px] uppercase tracking-[0.3em] text-white/40 mb-4 font-bold">Расчетное время взлома (Brute-force)</p>
+                            <p id="crackTime" class="text-4xl md:text-5xl font-serif-accent italic text-white/90 drop-shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-colors duration-500">
+                                0 секунд
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="flex flex-col gap-8 mb-16 max-w-5xl mx-auto">
+                    
+                    <div class="liquid-glass p-8 md:p-12 rounded-[2.5rem] border border-white/5 flex flex-col md:flex-row gap-10 items-center">
+                        <div class="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center flex-shrink-0 border border-white/10">
+                            <i class="fas fa-question text-xl text-white/60"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-cyber font-bold uppercase tracking-widest text-white/90 mb-4">Зачем нужен надежный пароль?</h3>
+                            <p class="text-sm text-white/50 leading-relaxed font-light">
+                                Пароль — ваша первая линия цифровой обороны. Использование словарных слов, дат рождения или коротких комбинаций позволяет специализированным программам взломать аккаунт за доли секунды. Надежный пароль предотвращает несанкционированный доступ к вашим финансам, личной переписке и защищает вашу цифровую личность.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="liquid-glass p-8 md:p-12 rounded-[2.5rem] border border-white/5 flex flex-col md:flex-row gap-10 items-center">
+                        <div class="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center flex-shrink-0 border border-white/10">
+                            <i class="fas fa-list-check text-xl text-white/60"></i>
+                        </div>
+                        <div class="w-full">
+                            <h3 class="text-xl font-cyber font-bold uppercase tracking-widest text-white/90 mb-6">Золотые правила (Протокол)</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-white/60 font-light">
+                                <div class="flex items-center gap-3 bg-black/20 p-4 rounded-2xl border border-white/5">
+                                    <i class="fas fa-ruler-horizontal text-white/40"></i> Длина строго от 16 символов
+                                </div>
+                                <div class="flex items-center gap-3 bg-black/20 p-4 rounded-2xl border border-white/5">
+                                    <i class="fas fa-sync text-white/40"></i> Смена каждые 3–6 месяцев
+                                </div>
+                                <div class="flex items-center gap-3 bg-black/20 p-4 rounded-2xl border border-white/5">
+                                    <i class="fas fa-ban text-white/40"></i> Запрет на повторное использование
+                                </div>
+                                <div class="flex items-center gap-3 bg-black/20 p-4 rounded-2xl border border-white/5">
+                                    <i class="fas fa-vault text-white/40"></i> Хранение в менеджере (KeePass)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="liquid-glass p-8 rounded-[2rem] border border-white/10 bg-white/5 text-center">
+                        <span class="text-[10px] uppercase tracking-[0.3em] text-white/50 font-bold block mb-3"><i class="fas fa-times-circle mr-2 text-white/40"></i>Критическая ошибка</span>
+                        <p class="text-sm text-white/80 italic font-serif-accent">
+                            Использование одного пароля везде. Утечка базы данных на слабо защищенном форуме автоматически даст хакерам доступ к вашей рабочей почте и социальным сетям.
+                        </p>
+                    </div>
+                </div>
+
+            </section>
+        </main>
+
+
+        <main id="cyber-quiz" class="spa-module max-w-[1000px] mx-auto px-6 md:px-12">
+            <section class="liquid-glass-strong p-10 md:p-16 rounded-[3.5rem] border border-white/5 mb-24 relative overflow-hidden">
+                
+                <button onclick="navigateTo('main-hub')" class="relative z-10 mb-12 text-white/40 hover:text-white/90 transition-colors flex items-center gap-3 text-[10px] uppercase tracking-[0.2em] font-bold">
+                    <i class="fas fa-arrow-left"></i> В главный хаб
+                </button>
+
+                <div class="text-center mb-16 relative z-10">
+                    <div class="w-20 h-20 rounded-full liquid-glass flex items-center justify-center mx-auto mb-8 border border-white/10">
+                        <i class="fas fa-brain text-3xl text-white/80"></i>
+                    </div>
+                    <h2 class="text-4xl md:text-5xl lg:text-6xl font-cyber font-bold uppercase tracking-widest mb-6 drop-shadow-lg">
+                        Кибер<span class="font-serif-accent italic text-white/50 lowercase font-normal">квиз</span>
+                    </h2>
+                    <p class="text-white/50 text-base max-w-2xl mx-auto leading-relaxed font-light">
+                        Интерактивное тестирование. Система проанализирует ваши ответы и сформирует персональные рекомендации по каждому инциденту.
+                    </p>
+                </div>
+
+                <div id="quizContainer" class="max-w-3xl mx-auto relative z-10">
+                    
+                    <div class="flex items-center justify-between border-b border-white/10 pb-6 mb-10">
+                        <span class="text-[10px] md:text-xs uppercase tracking-[0.3em] text-white/40 font-bold bg-white/5 px-4 py-2 rounded-full">Уровень <span id="qIdx" class="text-white">1</span>/5</span>
+                        <span class="text-[10px] md:text-xs uppercase tracking-[0.3em] text-white/40 font-bold bg-white/5 px-4 py-2 rounded-full">Баллы: <span id="qScore" class="text-white">0</span></span>
+                    </div>
+
+                    <h3 id="qText" class="text-2xl md:text-3xl font-serif-accent italic text-white text-center leading-relaxed mb-12 min-h-[100px] flex items-center justify-center">
+                        Инициализация сценария...
+                    </h3>
+                    
+                    <div id="qOptions" class="flex flex-col gap-4 mb-10">
+                        </div>
+                    
+                    <div id="qFeedback" class="hidden liquid-glass p-8 md:p-10 rounded-[2.5rem] border border-white/10 animate-moduleEnter mb-10 bg-black/40">
+                        <div class="flex items-center gap-4 mb-6 border-b border-white/10 pb-4">
+                            <div class="w-10 h-10 rounded-full flex items-center justify-center bg-white/5 border border-white/10">
+                                <i id="fbIcon" class="fas fa-info-circle text-lg"></i>
+                            </div>
+                            <span id="fbTitle" class="text-[11px] font-cyber font-bold uppercase tracking-[0.2em]">Системный анализ</span>
+                        </div>
+                        <p id="qRecText" class="text-base font-light text-white/70 leading-relaxed italic"></p>
+                    </div>
+
+                    <button id="nextBtn" class="hidden w-full liquid-glass-strong p-6 rounded-full text-xs uppercase tracking-[0.3em] font-bold text-white interactive-element border border-white/20 shadow-lg">
+                        Следующий сценарий <i class="fas fa-arrow-right ml-3 text-white/50"></i>
+                    </button>
+                </div>
+
+                <div id="quizResults" class="hidden text-center py-16 max-w-2xl mx-auto animate-moduleEnter">
+                    <div class="w-32 h-32 rounded-full bg-white/5 flex items-center justify-center mx-auto mb-10 border border-white/20 shadow-[0_0_50px_rgba(255,255,255,0.1)]">
+                        <i class="fas fa-award text-6xl text-white/80"></i>
+                    </div>
+                    <h2 class="text-4xl font-cyber font-bold uppercase tracking-widest mb-6">Аттестация пройдена</h2>
+                    
+                    <div class="liquid-glass p-10 rounded-[3rem] border border-white/10 mb-12 bg-black/30">
+                        <p class="text-white/40 text-[10px] uppercase tracking-[0.4em] font-bold mb-4">Ваш индекс защиты:</p>
+                        <p class="text-6xl font-serif-accent italic text-white flex items-baseline justify-center">
+                            <span id="finalResult">0</span><span class="text-3xl text-white/30 ml-3">/ 5</span>
+                        </p>
+                    </div>
+                    
+                    <button onclick="window.resetQuiz()" class="liquid-glass-strong px-12 py-6 rounded-full text-xs uppercase tracking-[0.2em] font-bold text-white interactive-element border border-white/20">
+                        <i class="fas fa-redo mr-3 text-white/50"></i> Повторить симуляцию
+                    </button>
+                </div>
+            </section>
+        </main>
+        <main id="module-anonymity" class="spa-module max-w-4xl mx-auto px-6 md:px-12">
+            <section class="liquid-glass-strong p-10 md:p-16 rounded-[3.5rem] border border-white/5 mb-24">
+                <button onclick="navigateTo('main-hub')" class="mb-12 text-white/40 hover:text-white/90 transition-colors flex items-center gap-3 text-[10px] uppercase tracking-[0.2em] font-bold">
+                    <i class="fas fa-arrow-left"></i> В главный хаб
+                </button>
+                <div class="flex items-center gap-6 mb-8">
+                    <div class="w-16 h-16 rounded-[1.5rem] liquid-glass flex items-center justify-center border border-white/10 text-2xl text-white/80">
+                        <i class="fas fa-user-secret"></i>
+                    </div>
+                    <h1 class="text-4xl md:text-5xl font-cyber font-bold uppercase tracking-widest text-white">Анонимность</h1>
+                </div>
+                
+                <div class="space-y-8 text-white/60 font-light leading-relaxed">
+                    <p class="text-base md:text-lg text-white/80">Фундамент цифровой безопасности. Предотвращает утечки конфиденциальной информации и снижает риски применения против вас методов социальной инженерии.</p>
+                    
+                    <div class="liquid-glass p-8 md:p-10 rounded-[2.5rem] border border-white/5">
+                        <h3 class="text-sm font-bold uppercase tracking-[0.2em] text-white/90 mb-6 border-b border-white/10 pb-4">Как применять на практике:</h3>
+                        <ol class="space-y-5 text-sm list-decimal list-inside">
+                            <li><strong class="text-white/90">Создайте отдельные email-адреса</strong> для работы, личных дел и подписок на сервисы. Утечка базы данных интернет-магазина не должна компрометировать вашу корпоративную почту.</li>
+                            <li><strong class="text-white/90">Используйте разные браузеры</strong> для разных целей. Например, жестко настроенный Chrome для работы и Firefox с блокировщиками для личных дел.</li>
+                            <li><strong class="text-white/90">Настройте контейнеры вкладок</strong> в Firefox или используйте изолированные профили для конфиденциальных сессий.</li>
+                            <li><strong class="text-white/90">Соблюдайте инфо-гигиену</strong>: не публикуйте личную информацию (фото билетов, адреса, даты рождения детей) в публичных аккаунтах.</li>
+                            <li><strong class="text-white/90">Используйте надежный VPN</strong> при работе в общественных сетях для скрытия вашего реального IP-адреса от провайдера и злоумышленников в сети.</li>
+                        </ol>
+                    </div>
+
+                    <div class="liquid-glass p-8 rounded-[2rem] bg-black/40 border border-white/10">
+                        <p class="text-[10px] uppercase tracking-widest text-white/50 font-bold mb-3 flex items-center gap-2"><i class="fas fa-lightbulb text-white/30"></i> Совет эксперта:</p>
+                        <p class="text-sm italic text-white/80 font-serif-accent">
+                            "Заведите абсолютно отдельный браузерный профиль (или даже отдельный чистый браузер) исключительно для финансовых операций и банкинга. Не устанавливайте туда расширения и не серфите через него по обычным сайтам."
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <main id="module-footprint" class="spa-module max-w-4xl mx-auto px-6 md:px-12">
+            <section class="liquid-glass-strong p-10 md:p-16 rounded-[3.5rem] border border-white/5 mb-24">
+                <button onclick="navigateTo('main-hub')" class="mb-12 text-white/40 hover:text-white/90 transition-colors flex items-center gap-3 text-[10px] uppercase tracking-[0.2em] font-bold">
+                    <i class="fas fa-arrow-left"></i> В главный хаб
+                </button>
+                <div class="flex items-center gap-6 mb-8">
+                    <div class="w-16 h-16 rounded-[1.5rem] liquid-glass flex items-center justify-center border border-white/10 text-2xl text-white/80">
+                        <i class="fas fa-shoe-prints"></i>
+                    </div>
+                    <h1 class="text-4xl md:text-5xl font-cyber font-bold uppercase tracking-widest text-white">Цифровые следы</h1>
+                </div>
+                
+                <div class="space-y-8 text-white/60 font-light leading-relaxed">
+                    <p class="text-base md:text-lg text-white/80">Каждое ваше действие оставляет отпечаток. Метаданные раскрывают ваше местоположение, а трекеры позволяют рекламщикам и мошенникам агрегировать ваш профиль поведения.</p>
+                    
+                    <div class="liquid-glass p-8 md:p-10 rounded-[2.5rem] border border-white/5">
+                        <h3 class="text-sm font-bold uppercase tracking-[0.2em] text-white/90 mb-6 border-b border-white/10 pb-4">Как применять на практике:</h3>
+                        <ol class="space-y-5 text-sm list-decimal list-inside">
+                            <li><strong class="text-white/90">Очищайте cookies</strong> минимум раз в неделю или настройте их автоматическое удаление при закрытии браузера.</li>
+                            <li><strong class="text-white/90">Используйте расширения</strong> типа Privacy Badger или uBlock Origin для блокировки скрытых скриптов-шпионов и кросс-сайтовых трекеров.</li>
+                            <li><strong class="text-white/90">Удаляйте метаданные (EXIF)</strong> из фотографий перед публикацией. В этих скрытых данных хранятся точные GPS-координаты места, где был сделан снимок, и модель вашего телефона.</li>
+                            <li><strong class="text-white/90">Отключите историю местоположений</strong> в настройках вашего смартфона и аккаунтах (например, в Google Timeline).</li>
+                        </ol>
+                    </div>
+
+                    <div class="liquid-glass p-8 rounded-[2rem] bg-black/40 border border-white/10">
+                        <p class="text-[10px] uppercase tracking-widest text-white/50 font-bold mb-3 flex items-center gap-2"><i class="fas fa-lightbulb text-white/30"></i> Совет эксперта:</p>
+                        <p class="text-sm italic text-white/80 font-serif-accent">
+                            "Используйте браузеры, ориентированные на приватность (Brave или Firefox с усиленной защитой от отслеживания). Они блокируют большинство трекеров по умолчанию и не собирают телеметрию."
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <main id="module-encryption" class="spa-module max-w-4xl mx-auto px-6 md:px-12">
+            <section class="liquid-glass-strong p-10 md:p-16 rounded-[3.5rem] border border-white/5 mb-24">
+                <button onclick="navigateTo('main-hub')" class="mb-12 text-white/40 hover:text-white/90 transition-colors flex items-center gap-3 text-[10px] uppercase tracking-[0.2em] font-bold"><i class="fas fa-arrow-left"></i> В главный хаб</button>
+                <div class="flex items-center gap-6 mb-8">
+                    <div class="w-16 h-16 rounded-[1.5rem] liquid-glass flex items-center justify-center border border-white/10 text-2xl text-white/80"><i class="fas fa-lock"></i></div>
+                    <h1 class="text-4xl md:text-5xl font-cyber font-bold uppercase tracking-widest text-white">Шифрование</h1>
+                </div>
+                
+                <div class="space-y-8 text-white/60 font-light leading-relaxed">
+                    <p class="text-base md:text-lg text-white/80">Обеспечивает защиту конфиденциальных медицинских и финансовых данных при их передаче и хранении, предотвращая атаки типа Man-in-the-Middle (MITM).</p>
+                    
+                    <div class="liquid-glass p-8 md:p-10 rounded-[2.5rem] border border-white/5">
+                        <h3 class="text-sm font-bold uppercase tracking-[0.2em] text-white/90 mb-6 border-b border-white/10 pb-4">Как применять на практике:</h3>
+                        <ol class="space-y-5 text-sm list-decimal list-inside">
+                            <li><strong class="text-white/90">Используйте мессенджеры со сквозным (E2E) шифрованием</strong>: Signal, WhatsApp (проверьте настройки), Telegram (только в режиме "Секретные чаты").</li>
+                            <li><strong class="text-white/90">Всегда проверяйте HTTPS</strong>. Наличие замка в адресной строке означает, что ваш трафик зашифрован. Никогда не вводите пароли на HTTP-сайтах.</li>
+                            <li><strong class="text-white/90">Шифруйте email</strong> с помощью протоколов PGP/GPG, если передаете сверхчувствительную корпоративную или личную информацию.</li>
+                            <li><strong class="text-white/90">Шифруйте локальные диски</strong> вашего ноутбука с помощью BitLocker (Windows) или FileVault (macOS), чтобы при краже никто не прочитал ваши файлы.</li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <main id="module-permissions" class="spa-module max-w-4xl mx-auto px-6 md:px-12">
+            <section class="liquid-glass-strong p-10 md:p-16 rounded-[3.5rem] border border-white/5 mb-24">
+                <button onclick="navigateTo('main-hub')" class="mb-12 text-white/40 hover:text-white/90 transition-colors flex items-center gap-3 text-[10px] uppercase tracking-[0.2em] font-bold"><i class="fas fa-arrow-left"></i> В главный хаб</button>
+                <div class="flex items-center gap-6 mb-8">
+                    <div class="w-16 h-16 rounded-[1.5rem] liquid-glass flex items-center justify-center border border-white/10 text-2xl text-white/80"><i class="fas fa-id-badge"></i></div>
+                    <h1 class="text-4xl md:text-5xl font-cyber font-bold uppercase tracking-widest text-white">Аудит доступов</h1>
+                </div>
+                
+                <div class="space-y-8 text-white/60 font-light leading-relaxed">
+                    <p class="text-base md:text-lg text-white/80">Многие приложения требуют избыточных прав для скрытого агрегирования данных. Контроль доступов — это суверенитет над аппаратными функциями (микрофон, камера, GPS) вашего устройства.</p>
+                    
+                    <div class="liquid-glass p-8 md:p-10 rounded-[2.5rem] border border-white/5">
+                        <h3 class="text-sm font-bold uppercase tracking-[0.2em] text-white/90 mb-6 border-b border-white/10 pb-4">Как применять на практике:</h3>
+                        <ol class="space-y-5 text-sm list-decimal list-inside">
+                            <li><strong class="text-white/90">Проверяйте разрешения перед установкой</strong>. Задайте себе вопрос: "Зачем приложению-фонарику нужен доступ к моему списку контактов и микрофону?".</li>
+                            <li><strong class="text-white/90">Используйте правило "Только во время использования"</strong> для геолокации и камеры. Никогда не давайте права "Всегда".</li>
+                            <li><strong class="text-white/90">Отключите фоновую активность</strong> для приложений, которые не должны работать, когда вы ими не пользуетесь.</li>
+                            <li><strong class="text-white/90">Удаляйте неиспользуемые программы</strong>. Чем меньше софта установлено на вашем смартфоне, тем меньше потенциальная поверхность атаки.</li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <main id="module-backups" class="spa-module max-w-4xl mx-auto px-6 md:px-12">
+            <section class="liquid-glass-strong p-10 md:p-16 rounded-[3.5rem] border border-white/5 mb-24">
+                <button onclick="navigateTo('main-hub')" class="mb-12 text-white/40 hover:text-white/90 transition-colors flex items-center gap-3 text-[10px] uppercase tracking-[0.2em] font-bold"><i class="fas fa-arrow-left"></i> В главный хаб</button>
+                <div class="flex items-center gap-6 mb-8">
+                    <div class="w-16 h-16 rounded-[1.5rem] liquid-glass flex items-center justify-center border border-white/10 text-2xl text-white/80"><i class="fas fa-database"></i></div>
+                    <h1 class="text-4xl md:text-5xl font-cyber font-bold uppercase tracking-widest text-white">Резервные копии</h1>
+                </div>
+                
+                <div class="space-y-8 text-white/60 font-light leading-relaxed">
+                    <p class="text-base md:text-lg text-white/80">Обеспечивают защиту от программ-вымогателей (Ransomware), физических поломок, пожаров и утери устройств. Бэкап — это ваша цифровая страховка.</p>
+                    
+                    <div class="liquid-glass p-8 md:p-10 rounded-[2.5rem] border border-white/5">
+                        <h3 class="text-sm font-bold uppercase tracking-[0.2em] text-white/90 mb-6 border-b border-white/10 pb-4">Как применять на практике:</h3>
+                        <ol class="space-y-5 text-sm list-decimal list-inside">
+                            <li><strong class="text-white/90">Соблюдайте Правило 3-2-1</strong>: 3 копии данных, на 2 разных типах носителей, 1 копия обязательно хранится вне дома или офиса (например, в зашифрованном облаке).</li>
+                            <li><strong class="text-white/90">Шифруйте внешние HDD/SSD диски</strong> с помощью VeraCrypt. Кража вашего внешнего диска с бэкапами равноценна утечке всех ваших данных, если он не зашифрован.</li>
+                            <li><strong class="text-white/90">Выбирайте облачные сервисы с E2E</strong>: Tresorit, ProtonDrive. Если используете обычные (Google Drive, Яндекс.Диск) — создавайте зашифрованные архивы (7-Zip с AES-256) перед загрузкой.</li>
+                            <li><strong class="text-white/90">Регулярно тестируйте восстановление</strong>. Бэкап бесполезен, если в критической ситуации из него нельзя развернуть систему. Раз в квартал проверяйте, что архивы читаются.</li>
+                        </ol>
+                    </div>
+
+                    <div class="liquid-glass p-8 rounded-[2rem] bg-black/40 border border-white/10">
+                        <p class="text-[10px] uppercase tracking-widest text-white/50 font-bold mb-3 flex items-center gap-2"><i class="fas fa-lightbulb text-white/30"></i> Совет эксперта:</p>
+                        <p class="text-sm italic text-white/80 font-serif-accent">
+                            "Применяйте принцип 'нулевого доверия': даже если вы доверяете облачному провайдеру, всегда шифруйте данные локально на своей стороне перед их отправкой в сеть."
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <main id="guide-passwords" class="spa-module max-w-4xl mx-auto px-6 md:px-12">
+            <section class="liquid-glass-strong p-10 md:p-16 rounded-[3.5rem] border border-white/5 mb-24">
+                <button onclick="navigateTo('main-hub')" class="mb-12 text-white/40 hover:text-white/90 transition-colors flex items-center gap-3 text-[10px] uppercase tracking-[0.2em] font-bold"><i class="fas fa-arrow-left"></i> В главный хаб</button>
+                <div class="flex items-center gap-6 mb-8">
+                    <div class="w-16 h-16 rounded-[1.5rem] liquid-glass flex items-center justify-center border border-white/10 text-2xl text-white/80"><i class="fas fa-sync-alt"></i></div>
+                    <h1 class="text-4xl md:text-5xl font-cyber font-bold uppercase tracking-widest text-white">Протокол паролей</h1>
+                </div>
+                
+                <div class="liquid-glass p-8 md:p-10 rounded-[2.5rem] border border-white/5 text-white/60 font-light space-y-6">
+                    <p class="text-base text-white/80 mb-6">Регулярная смена ключей доступа минимизирует окно возможностей для хакеров при утечке баз данных сторонних сервисов (Credential Stuffing).</p>
+                    <ol class="space-y-5 text-sm list-decimal list-inside">
+                        <li><strong class="text-white/90">Меняйте пароли каждые 3-6 месяцев</strong> строго для важных аккаунтов (интернет-банкинг, основной email, Госуслуги, корпоративные доступы).</li>
+                        <li><strong class="text-white/90">Используйте менеджеры паролей</strong> (например, Bitwarden, 1Password или KeePass) для генерации и безопасного хранения сложных случайных комбинаций.</li>
+                        <li><strong class="text-white/90">Соблюдайте длину от 16 символов</strong>, комбинируя буквы разных регистров, цифры и специальные знаки.</li>
+                        <li><strong class="text-white/90">Проверяйте утечки</strong>: используйте сервис Have I Been Pwned. Если ваш email засветился в слитой базе, немедленно меняйте пароли везде, где они могли пересекаться.</li>
+                    </ol>
+                </div>
+            </section>
+        </main>
+
+        <main id="guide-2fa" class="spa-module max-w-4xl mx-auto px-6 md:px-12">
+            <section class="liquid-glass-strong p-10 md:p-16 rounded-[3.5rem] border border-white/5 mb-24">
+                <button onclick="navigateTo('main-hub')" class="mb-12 text-white/40 hover:text-white/90 transition-colors flex items-center gap-3 text-[10px] uppercase tracking-[0.2em] font-bold"><i class="fas fa-arrow-left"></i> В главный хаб</button>
+                <div class="flex items-center gap-6 mb-8">
+                    <div class="w-16 h-16 rounded-[1.5rem] liquid-glass flex items-center justify-center border border-white/10 text-2xl text-white/80"><i class="fas fa-mobile-alt"></i></div>
+                    <h1 class="text-4xl md:text-5xl font-cyber font-bold uppercase tracking-widest text-white">Аутентификация (2FA)</h1>
+                </div>
+                
+                <div class="liquid-glass p-8 md:p-10 rounded-[2.5rem] border border-white/5 text-white/60 font-light space-y-6">
+                    <p class="text-base text-white/80 mb-6">Двухфакторная аутентификация блокирует 99% автоматизированных попыток взлома. Даже если ваш пароль стал известен, злоумышленник не сможет войти без вашего физического устройства.</p>
+                    <ol class="space-y-5 text-sm list-decimal list-inside">
+                        <li><strong class="text-white/90">Включите 2FA везде</strong>: банки, социальные сети, почта, игровые платформы, корпоративные сервисы.</li>
+                        <li><strong class="text-white/90">Используйте приложения-аутентификаторы (TOTP)</strong> (Google Authenticator, Authy, Microsoft Authenticator) — они генерируют коды локально и безопаснее SMS.</li>
+                        <li><strong class="text-white/90">Откажитесь от SMS-2FA</strong> для критичных аккаунтов, так как существует высокий риск подмены SIM-карты (Sim-Swapping атаки) методами социальной инженерии.</li>
+                        <li><strong class="text-white/90">Сохраните резервные коды</strong> восстановления, которые выдает сервис при настройке 2FA. Распечатайте их и храните в надежном физическом месте (например, в сейфе) на случай потери смартфона.</li>
+                        <li><strong class="text-white/90">Аппаратные ключи (FIDO2/U2F)</strong>: для максимального уровня безопасности (криптовалютные биржи, серверы) используйте физические токены вроде YubiKey.</li>
+                    </ol>
+                </div>
+            </section>
+        </main>
+
+        <main id="guide-updates" class="spa-module max-w-4xl mx-auto px-6 md:px-12">
+            <section class="liquid-glass-strong p-10 md:p-16 rounded-[3.5rem] border border-white/5 mb-24">
+                <button onclick="navigateTo('main-hub')" class="mb-12 text-white/40 hover:text-white/90 transition-colors flex items-center gap-3 text-[10px] uppercase tracking-[0.2em] font-bold"><i class="fas fa-arrow-left"></i> В главный хаб</button>
+                <div class="flex items-center gap-6 mb-8">
+                    <div class="w-16 h-16 rounded-[1.5rem] liquid-glass flex items-center justify-center border border-white/10 text-2xl text-white/80"><i class="fas fa-download"></i></div>
+                    <h1 class="text-4xl md:text-5xl font-cyber font-bold uppercase tracking-widest text-white">Обновление ПО</h1>
+                </div>
+                
+                <div class="liquid-glass p-8 md:p-10 rounded-[2.5rem] border border-white/5 text-white/60 font-light space-y-6">
+                    <p class="text-base text-white/80 mb-6">Использование необновленного программного обеспечения — главная причина 80% успешных кибератак. Патчи закрывают обнаруженные уязвимости нулевого дня (Zero-Day), через которые проникают программы-вымогатели.</p>
+                    <ol class="space-y-5 text-sm list-decimal list-inside">
+                        <li><strong class="text-white/90">Включите автоматические обновления</strong> для операционной системы (Windows, macOS, iOS, Android).</li>
+                        <li><strong class="text-white/90">Не откладывайте критические патчи безопасности</strong>. Если система просит перезагрузиться для установки обновления — сделайте это в тот же день.</li>
+                        <li><strong class="text-white/90">Обновляйте браузеры немедленно</strong>. Браузер — ваша главная точка соприкосновения с интернетом и самая частая цель эксплойтов.</li>
+                        <li><strong class="text-white/90">Обновляйте роутеры вручную</strong>. Домашние маршрутизаторы и устройства "умного дома" редко обновляются сами. Регулярно заходите в их веб-интерфейс.</li>
+                        <li><strong class="text-white/90">Удаляйте устаревшие программы</strong>. Если разработчик прекратил поддержку софта (Abandonware), найдите современную и безопасную альтернативу.</li>
+                    </ol>
+                </div>
+            </section>
+        </main>
+
+    </div> <footer class="relative z-10 border-t border-white/5 bg-black/50 backdrop-blur-3xl py-12 md:py-16 text-center">
+        <div class="max-w-4xl mx-auto px-6 flex flex-col items-center gap-6">
+            <div class="w-12 h-12 rounded-full liquid-glass flex items-center justify-center opacity-30 border border-white/5">
+                <i class="fas fa-shield-halved text-white text-xl"></i>
+            </div>
+            <div class="flex flex-col gap-2">
+                <p class="text-[9px] md:text-[10px] uppercase tracking-[0.5em] text-white/30 font-medium">Национальная Платформа безопасности // Республика Беларусь</p>
+                <p class="text-lg md:text-2xl font-cyber font-bold uppercase tracking-[0.2em] text-white/50 drop-shadow-md">
+                    #Кибер<span class="font-serif-accent italic lowercase font-normal text-white/30">право</span> <span class="text-white/20">2026</span>
+                </p>
+            </div>
+            <div class="h-[1px] w-24 bg-gradient-to-r from-transparent via-white/10 to-transparent my-2"></div>
+            <p class="text-[9px] md:text-[10px] text-white/20 font-light max-w-lg leading-relaxed">
+                Все права защищены. Использование эмуляторов фишинга, сканеров энтропии паролей и других инструментов платформы предназначено исключительно в образовательных целях для повышения уровня кибер-иммунитета и формирования цифровой грамотности граждан.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        /**
+         * ==========================================
+         * 1. СТРОГАЯ ИМПЛЕМЕНТАЦИЯ ГАМБУРГЕР-МЕНЮ (По ТЗ)
+         * Требование: Открывается по нажатию справа сверху, пункты идут столбиком, панель занимает примерно треть экрана.
+         * ==========================================
+         */
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuTriggerBtn = document.getElementById('menuTrigger');
+            const navFullMenu = document.getElementById('fullMenu');
+            let isNavOpen = false;
+
+            // Глобальная функция для переключения меню, доступная в HTML (onClick)
+            window.toggleMenu = function() {
+                isNavOpen = !isNavOpen;
+                
+                // Анимация иконки (бургер в крестик)
+                const bar1 = document.getElementById('bar1');
+                const bar2 = document.getElementById('bar2');
+                
+                if(isNavOpen) {
+                    // Открытие (Сдвигаем Y в 0)
+                    navFullMenu.style.transform = 'translateX(0)';
+                    navFullMenu.style.opacity = '1';
+                    menuTriggerBtn.classList.add('bg-white/10');
+                    
+                    // Трансформация линий
+                    bar1.style.transform = 'rotate(45deg) translate(2px, 4px)';
+                    bar2.style.transform = 'rotate(-45deg) translate(2px, -4px)';
+                    bar2.style.width = '1.5rem'; // Выравниваем ширину
+                } else {
+                    // Закрытие (Прячем наверх -100%)
+                    navFullMenu.style.transform = 'translateX(120%)';
+                    navFullMenu.style.opacity = '0';
+                    menuTriggerBtn.classList.remove('bg-white/10');
+                    
+                    // Возврат линий
+                    bar1.style.transform = 'none';
+                    bar2.style.transform = 'none';
+                    bar2.style.width = '1rem';
+                }
+            };
+
+            // Привязка события к основной кнопке в шапке
+            if(menuTriggerBtn) {
+                menuTriggerBtn.addEventListener('click', window.toggleMenu);
+            }
+        });
+
+
+        /**
+         * ==========================================
+         * 2. SPA НАВИГАЦИЯ (Single Page Application Routing)
+         * Управляет переключением модулей с плавной анимацией появления
+         * ==========================================
+         */
+        const systemModules = [
+            'main-hub', 
+            'email-scanner', 
+            'legal-module', 
+            'password-vault', 
+            'cyber-quiz', 
+            'module-anonymity', 
+            'module-footprint', 
+            'module-encryption', 
+            'module-permissions', 
+            'module-backups', 
+            'guide-passwords', 
+            'guide-2fa', 
+            'guide-updates'
+        ];
+        
+        window.navigateTo = function(targetId) {
+            // Скрытие всех модулей
+            systemModules.forEach(moduleId => {
+                const element = document.getElementById(moduleId);
+                if(element) {
+                    element.classList.remove('active');
+                    // Сброс CSS анимации (trick с offsetWidth для force-reflow)
+                    element.style.animation = 'none';
+                    void element.offsetWidth; 
+                    element.style.animation = null; 
+                }
+            });
+            
+            // Активация целевого модуля
+            const targetElement = document.getElementById(targetId);
+            if(targetElement) {
+                targetElement.classList.add('active');
+                // Плавный скролл к началу страницы
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                // Изменение URL в браузере (History API)
+                window.history.pushState({ view: targetId }, '', `#${targetId}`);
+            }
+        };
+
+        // Обработка системных кнопок "Назад/Вперед" в браузере
+        window.addEventListener('popstate', (e) => {
+            if(e.state && e.state.view) {
+                navigateTo(e.state.view);
+            } else {
+                navigateTo('main-hub'); // Fallback на главную
+            }
+        });
+
+
+        /**
+         * ==========================================
+         * 3. ИНТЕЛЛЕКТУАЛЬНЫЙ СЕНСОР СКРОЛЛА (Scroll Reveal)
+         * ==========================================
+         */
+        const revealOptions = { 
+            threshold: 0.1, 
+            rootMargin: "0px 0px -40px 0px" 
+        };
+        
+        const scrollObserver = new IntersectionObserver((entries, observerObj) => {
+            entries.forEach(entry => { 
+                if(entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    // Прекращаем наблюдение после первого срабатывания (одноразовая анимация)
+                    observerObj.unobserve(entry.target); 
+                }
+            });
+        }, revealOptions);
+        
+        // Отложенный старт для гарантии рендера DOM
+        setTimeout(() => {
+            document.querySelectorAll('.reveal').forEach(node => scrollObserver.observe(node));
+        }, 150);
+
+
+        /**
+         * ==========================================
+         * 4. МАТЕМАТИЧЕСКИЕ СЧЕТЧИКИ (Анимация статистики на главной)
+         * ==========================================
+         */
+        function initializeCounters() {
+            document.querySelectorAll('.counter').forEach(counterEl => {
+                const targetNum = parseFloat(counterEl.getAttribute('data-target'));
+                const animDuration = 2000; // 2 сек
+                const frameRate = 1000 / 60; // 60 кадров/с
+                const totalFrames = Math.round(animDuration / frameRate);
+                const step = targetNum / totalFrames;
+                
+                let currentNum = 0;
+                
+                const animateTick = () => {
+                    currentNum += step;
+                    if(currentNum < targetNum) { 
+                        counterEl.innerText = Math.ceil(currentNum).toLocaleString('ru-RU'); 
+                        requestAnimationFrame(animateTick); 
+                    } else { 
+                        counterEl.innerText = targetNum.toLocaleString('ru-RU'); 
+                    }
+                };
+                animateTick();
+            });
+        }
+        // Запуск через 1 сек, чтобы пользователь успел увидеть появление блока
+        setTimeout(initializeCounters, 1000);
+
+
+        /**
+         * ==========================================
+         * 5. МОДУЛЬ URL ВАЛИДАТОРА (Эмуляция сетевой проверки)
+         * ==========================================
+         */
+        window.handleUrlScan = function() {
+            const inputEl = document.getElementById('urlInput');
+            const urlString = inputEl.value.trim().toLowerCase();
+            const statusBox = document.getElementById('urlStatusBox');
+            const iconDiv = document.getElementById('urlStatusIcon');
+            const titleEl = document.getElementById('urlStatusTitle');
+            const descEl = document.getElementById('urlStatusDesc');
+
+            if(!urlString) {
+                // Визуальная ошибка: красная рамка на инпуте
+                inputEl.classList.add('border-red-500/50');
+                setTimeout(() => inputEl.classList.remove('border-red-500/50'), 800);
+                return;
+            }
+            
+            // Включение UI загрузки
+            statusBox.classList.remove('hidden');
+            statusBox.classList.add('animate-pulse');
+            statusBox.classList.replace('border-white/30', 'border-white/10');
+            statusBox.classList.remove('bg-white/5');
+            
+            titleEl.innerText = "ИНИЦИАЛИЗАЦИЯ ПРОВЕРКИ...";
+            titleEl.className = 'font-cyber font-bold text-sm uppercase tracking-wider text-white mb-1';
+            descEl.innerText = "Сверка сертификатов и сигнатур с реестром БелГИЭ.";
+            iconDiv.innerHTML = '<i class="fas fa-cog fa-spin text-white text-lg"></i>';
+
+            // Имитация асинхронного сетевого запроса (1.5 - 2.5 сек)
+            const randomDelay = Math.floor(Math.random() * 1000) + 1500;
+            
+            setTimeout(() => {
+                statusBox.classList.remove('animate-pulse');
+                
+                // Простейшая эвристика фишинга
+                const threatPatterns = ['.net', '.top', '.cc', 'login', 'auth', '-rb', 'verify', 'account', 'support-'];
+                const isThreatDetected = threatPatterns.some(pattern => urlString.includes(pattern));
+
+                if(isThreatDetected) {
+                    titleEl.innerText = "КРИТИЧЕСКАЯ УГРОЗА";
+                    titleEl.className = 'font-cyber font-bold text-sm uppercase tracking-wider text-white mb-1 drop-shadow-[0_0_10px_rgba(255,255,255,0.4)]';
+                    descEl.innerText = "ВНИМАНИЕ: Домен числится в Blacklist. Обнаружены явные паттерны фишинга (Typosquatting).";
+                    iconDiv.innerHTML = '<i class="fas fa-skull text-white/80 text-xl"></i>';
+                    statusBox.classList.replace('border-white/10', 'border-white/30');
+                    statusBox.classList.add('bg-white/5');
+                } else {
+                    titleEl.innerText = "БЕЗОПАСНЫЙ УЗЕЛ";
+                    descEl.innerText = "Анализ завершен. SSL валиден. Угроз в глобальных базах не обнаружено.";
+                    iconDiv.innerHTML = '<i class="fas fa-shield-check text-white/80 text-xl"></i>';
+                }
+            }, randomDelay);
+        }
+
+
+        /**
+         * ==========================================
+         * 6. ПРОДВИНУТЫЙ АНАЛИЗАТОР ПАРОЛЕЙ
+         * Основан на расчете математической энтропии (E = L * log2(R))
+         * ==========================================
+         */
+        window.isPasswordEyeVisible = false;
+        
+        window.togglePassword = function() {
+            window.isPasswordEyeVisible = !window.isPasswordEyeVisible;
+            const inputField = document.getElementById('passwordInput');
+            const eyeIcon = document.getElementById('eyeIcon');
+            
+            inputField.type = window.isPasswordEyeVisible ? 'text' : 'password';
+            eyeIcon.className = window.isPasswordEyeVisible ? 'fas fa-eye-slash text-lg' : 'fas fa-eye text-lg';
+            eyeIcon.parentElement.style.opacity = window.isPasswordEyeVisible ? '1' : '0.3';
+        }
+
+        window.analyzePassword = function() {
+            const pwdString = document.getElementById('passwordInput').value;
+            const resultContainer = document.getElementById('passwordResult');
+            
+            if(!pwdString) { 
+                resultContainer.classList.add('hidden'); 
+                return; 
+            }
+            resultContainer.classList.remove('hidden');
+
+            const passLen = pwdString.length;
+            const hasUpper = /[A-Z]/.test(pwdString);
+            const hasLower = /[a-z]/.test(pwdString);
+            const hasNumbers = /[0-9]/.test(pwdString);
+            const hasSpecials = /[^A-Za-z0-9]/.test(pwdString);
+
+            // Визуальное оформление маленьких плашек (Grayscale Aesthetic)
+            const clsActive = 'bg-white/10 text-white border-white/20 shadow-[inset_0_0_15px_rgba(255,255,255,0.05)]';
+            const clsInactive = 'border-white/5 text-white/30';
+            
+            const validationRules = [
+                { elId: 'lenCheck', isValid: passLen >= 16 },
+                { elId: 'upCheck', isValid: hasUpper },
+                { elId: 'lowCheck', isValid: hasLower },
+                { elId: 'numCheck', isValid: hasNumbers },
+                { elId: 'specCheck', isValid: hasSpecials }
+            ];
+
+            validationRules.forEach(rule => {
+                const node = document.getElementById(rule.elId);
+                if(node) {
+                    const baseCls = 'liquid-glass p-4 rounded-xl text-center text-[10px] uppercase tracking-widest border flex flex-col gap-1 transition-all duration-400';
+                    node.className = `${baseCls} ${rule.isValid ? clsActive : clsInactive}`;
+                }
+            });
+
+            // Математика: Размер алфавита (R)
+            let charsetSize = 0;
+            if(hasLower) charsetSize += 26;
+            if(hasUpper) charsetSize += 26;
+            if(hasNumbers) charsetSize += 10;
+            if(hasSpecials) charsetSize += 32;
+
+            // Вычисление энтропии (E = L * log2(R))
+            let entropyBits = 0;
+            if(charsetSize > 0) {
+                entropyBits = passLen * (Math.log(charsetSize) / Math.log(2));
+            }
+
+            // Маппинг энтропии в индекс от 0 до 6
+            let strengthIndex = 0;
+            if (entropyBits < 28) strengthIndex = 0;      
+            else if (entropyBits < 36) strengthIndex = 1; 
+            else if (entropyBits < 50) strengthIndex = 2; 
+            else if (entropyBits < 60) strengthIndex = 3; 
+            else if (entropyBits < 80) strengthIndex = 4; 
+            else if (entropyBits < 100) strengthIndex = 5;
+            else strengthIndex = 6;                       
+
+            // Текстовые константы
+            const strengthTitles = ['Критически слабый', 'Уязвимый', 'Низкая стойкость', 'Средний', 'Надежный', 'Крепкий', 'Абсолютный'];
+            const bruteForceTimes = ['Мгновенно', '< 1 минуты', '~1 час', '~1 сутки', '~1 месяц', '~10 лет', '> 1000 лет'];
+
+            // Применение в DOM
+            document.getElementById('strengthLabel').innerText = strengthTitles[strengthIndex];
+            
+            const progressLine = document.getElementById('strengthBar');
+            progressLine.style.width = `${(strengthIndex / 6) * 100}%`;
+            // Яркость белого плавно увеличивается от 20% до 100% (Grayscale theme)
+            progressLine.style.backgroundColor = `rgba(255,255,255,${0.2 + (strengthIndex / 6) * 0.8})`;
+            
+            const timeOutput = document.getElementById('crackTime');
+            timeOutput.innerText = bruteForceTimes[strengthIndex];
+            timeOutput.style.color = `rgba(255,255,255,${0.3 + (strengthIndex / 6) * 0.7})`;
+        }
+
+
+        /**
+         * ==========================================
+         * 7. ИНТЕЛЛЕКТУАЛЬНЫЙ КВИЗ (С системой рекомендаций)
+         * ==========================================
+         */
+        const quizLogicDB = [
+            {
+                question: "Задание 1. Вы создаете пароль для важного аккаунта. Какая длина считается минимально надежной?",
+                answers: ["6–8 символов", "10–12 символов", "16 и более символов", "Любая длина, если есть цифры"],
+                correctIndex: 2,
+                recommendText: "Выбирайте парольные фразы от 16 символов. Длина сильнее всего увеличивает время перебора и делает пароль устойчивее к автоматическим атакам."
+            },
+            {
+                question: "Задание 2. Как часто стоит менять пароль от важных сервисов: почты, банка, рабочего аккаунта?",
+                answers: ["Каждую неделю", "Каждый день", "Раз в 3–6 месяцев или сразу после подозрительной активности", "Никогда"],
+                correctIndex: 2,
+                recommendText: "Оптимально менять пароли планово раз в 3–6 месяцев и внепланово после утечки, подозрительного входа или сообщения от сервиса безопасности."
+            },
+            {
+                question: "Задание 3. Почему нельзя использовать один и тот же пароль на всех сайтах?",
+                answers: ["Его сложнее запомнить", "Сайты начинают работать медленнее", "Одна утечка откроет доступ к другим аккаунтам", "Это безопасно, если пароль длинный"],
+                correctIndex: 2,
+                recommendText: "Один пароль создает эффект домино: если его сольют на одном сайте, злоумышленник попробует войти с ним в почту, соцсети и банковские сервисы."
+            },
+            {
+                question: "Задание 4. Что дает двухфакторная аутентификация?",
+                answers: ["Ускоряет интернет", "Защищает аккаунт, даже если пароль узнали", "Шифрует фотографии", "Удаляет историю браузера"],
+                correctIndex: 1,
+                recommendText: "2FA добавляет второй барьер: для входа нужен не только пароль, но и код, приложение-аутентификатор или физический ключ."
+            },
+            {
+                question: "Задание 5. Что делать, если пришла ссылка на оплату доставки или штрафа?",
+                answers: ["Сразу оплатить", "Переслать друзьям", "Проверить домен вручную и открыть сервис через официальный сайт", "Ввести код из SMS для проверки"],
+                correctIndex: 2,
+                recommendText: "Не переходите по подозрительным ссылкам из сообщений. Откройте официальный сайт или приложение вручную и проверьте статус заказа там."
+            }
+        ];
+
+        let quizCurrentStep = 0;
+        let quizScore = 0;
+        let quizAnsweredFlag = false;
+
+        window.initQuizStep = function() {
+            const qData = quizLogicDB[quizCurrentStep];
+            
+            // UI шапки
+            document.getElementById('qIdx').innerText = quizCurrentStep + 1;
+            document.getElementById('qScore').innerText = quizScore;
+            document.getElementById('qText').innerText = qData.question;
+            
+            // Сброс состояний
+            document.getElementById('qFeedback').classList.add('hidden');
+            document.getElementById('nextBtn').classList.add('hidden');
+            quizAnsweredFlag = false;
+
+            // Рендер кнопок
+            const btnContainer = document.getElementById('qOptions');
+            btnContainer.innerHTML = ''; 
+            
+            qData.answers.forEach((text, index) => {
+                const btnNode = document.createElement('div');
+                btnNode.className = 'liquid-glass quiz-option px-8 py-5 rounded-[1.5rem] text-sm font-light text-center text-white/70 border border-white/5 select-none hover:bg-white/5 transition-all duration-300';
+                btnNode.innerText = text;
+                btnNode.onclick = () => window.handleQuizSelect(index);
+                btnContainer.appendChild(btnNode);
+            });
+        }
+
+        window.handleQuizSelect = function(userIndex) {
+            if(quizAnsweredFlag) return;
+            quizAnsweredFlag = true;
+            
+            const qData = quizLogicDB[quizCurrentStep];
+            const allBtnNodes = document.querySelectorAll('.quiz-option');
+
+            // Применение визуальных стилей (Строгий Grayscale)
+            allBtnNodes.forEach((node, i) => {
+                node.style.pointerEvents = 'none'; 
+                
+                if(i === qData.correctIndex) {
+                    node.classList.add('correct');
+                    node.classList.replace('text-white/70', 'text-white');
+                    node.style.backgroundColor = 'rgba(255,255,255,0.15)';
+                    node.style.borderColor = 'rgba(255,255,255,0.4)';
+                    node.style.boxShadow = 'inset 0 0 15px rgba(255,255,255,0.1)';
+                } else if (i === userIndex) {
+                    node.classList.add('wrong');
+                    node.style.opacity = '0.3';
+                    node.style.backgroundColor = 'rgba(0,0,0,0.5)';
+                } else {
+                    node.style.opacity = '0.4';
+                }
+            });
+
+            const feedBox = document.getElementById('qFeedback');
+            const feedTitle = document.getElementById('fbTitle');
+            const feedIcon = document.getElementById('fbIcon');
+            
+            if(userIndex === qData.correctIndex) {
+                quizScore++;
+                feedTitle.innerText = "Системный анализ: Протокол соблюден";
+                feedIcon.className = "fas fa-check-circle text-white/80 text-xl";
+                feedBox.style.borderColor = "rgba(255,255,255,0.3)";
+                feedBox.style.backgroundColor = "rgba(255,255,255,0.05)";
+            } else {
+                feedTitle.innerText = "Системный анализ: Обнаружена уязвимость";
+                feedIcon.className = "fas fa-times-circle text-white/40 text-xl";
+                feedBox.style.borderColor = "rgba(255,255,255,0.1)";
+                feedBox.style.backgroundColor = "rgba(0,0,0,0.4)";
+            }
+            
+            // Вывод рекомендации
+            document.getElementById('qRecText').innerText = qData.recommendText;
+            
+            feedBox.classList.remove('hidden');
+            document.getElementById('nextBtn').classList.remove('hidden');
+            document.getElementById('qScore').innerText = quizScore;
+        }
+
+        // Переход далее
+        if(document.getElementById('nextBtn')) {
+            document.getElementById('nextBtn').onclick = () => {
+                quizCurrentStep++;
+                if(quizCurrentStep < quizLogicDB.length) {
+                    window.initQuizStep();
+                } else {
+                    // Конец: показываем результаты
+                    document.getElementById('quizContainer').classList.add('hidden');
+                    document.getElementById('quizResults').classList.remove('hidden');
+                    document.getElementById('finalResult').innerText = quizScore;
+                }
+            };
+        }
+
+        // Перезапуск
+        window.resetQuiz = function() {
+            quizCurrentStep = 0;
+            quizScore = 0;
+            document.getElementById('quizContainer').classList.remove('hidden');
+            document.getElementById('quizResults').classList.add('hidden');
+            window.initQuizStep();
+        }
+
+        // Авто-запуск при наличии контейнера
+        if(document.getElementById('cyber-quiz')) {
+            window.initQuizStep();
+        }
+
+        /**
+         * ==========================================
+         * 8. ОБРАБОТЧИК ФОРМЫ (Голос сообщества)
+         * ==========================================
+         */
+        window.handleFeedbackSend = function() {
+            // Эмуляция отправки (предотвращаем перезагрузку страницы)
+            event.preventDefault();
+            const inputs = document.querySelectorAll('input, textarea, select');
+            let isEmpty = false;
+            
+            inputs.forEach(i => {
+                if(i.hasAttribute('required') && !i.value.trim()) isEmpty = true;
+            });
+
+            if(!isEmpty) {
+                alert("Протокол E2EE: Сообщение успешно зашифровано и передано в базу.");
+                inputs.forEach(i => i.value = ''); // Очистка
+            }
+        }
+    </script>
+</body>
+</html>
+
